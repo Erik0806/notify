@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../controllers/controller.dart';
 import '../utils/color_utils.dart';
 
 class NeumorphicCard extends StatefulWidget {
@@ -26,6 +28,8 @@ class NeumorphicCard extends StatefulWidget {
 }
 
 class _NeumorphicCardState extends State<NeumorphicCard> {
+  bool neumorphic = Get.find<Controller>().neumorphic;
+
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
@@ -36,29 +40,37 @@ class _NeumorphicCardState extends State<NeumorphicCard> {
       curve: Curves.easeOut,
       decoration: BoxDecoration(
         color: widget.color ?? Theme.of(context).colorScheme.background,
+        border: neumorphic
+            ? null
+            : Border.all(
+                width: 2, color: Theme.of(context).colorScheme.surface),
         borderRadius: widget.borderRadius ?? BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? ColorUtils.darken(
-                    widget.color ?? Theme.of(context).backgroundColor, 60)
-                : ColorUtils.darken(
-                    widget.color ?? Theme.of(context).backgroundColor, 30),
-            offset: const Offset(6, 6),
-            blurRadius: widget.blurRadius,
-            spreadRadius: 1,
-          ),
-          BoxShadow(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? ColorUtils.lighten(
-                    widget.color ?? Theme.of(context).backgroundColor, 15)
-                : ColorUtils.lighten(
-                    widget.color ?? Theme.of(context).backgroundColor, 70),
-            offset: const Offset(-6, -6),
-            blurRadius: 10,
-            spreadRadius: 1,
-          )
-        ],
+        boxShadow: !neumorphic
+            ? []
+            : [
+                BoxShadow(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? ColorUtils.darken(
+                          widget.color ?? Theme.of(context).backgroundColor, 60)
+                      : ColorUtils.darken(
+                          widget.color ?? Theme.of(context).backgroundColor,
+                          30),
+                  offset: const Offset(6, 6),
+                  blurRadius: widget.blurRadius,
+                  spreadRadius: 1,
+                ),
+                BoxShadow(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? ColorUtils.lighten(
+                          widget.color ?? Theme.of(context).backgroundColor, 15)
+                      : ColorUtils.lighten(
+                          widget.color ?? Theme.of(context).backgroundColor,
+                          70),
+                  offset: const Offset(-6, -6),
+                  blurRadius: 10,
+                  spreadRadius: 1,
+                )
+              ],
       ),
       child: Column(
         children: [

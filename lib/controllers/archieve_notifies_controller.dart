@@ -26,6 +26,9 @@ class ArchieveNotifiesController extends GetxController {
         }
       }
     }
+    archieveNotifies.sort(
+      (a, b) => b.compareTo(a),
+    );
     for (var notify in toDelete) {
       notifies.remove(notify);
     }
@@ -79,6 +82,9 @@ class ArchieveNotifiesController extends GetxController {
       Notify notify = archieveNotifies[place];
       Get.find<Controller>().changeNotification(notify);
     }
+    archieveNotifies.sort(
+      (a, b) => b.compareTo(a),
+    );
     Get.find<Controller>().safeAll();
     update();
   }

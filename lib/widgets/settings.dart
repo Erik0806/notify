@@ -22,7 +22,6 @@ class Settings extends StatelessWidget {
                         true
                     ? 0
                     : 1,
-            customWidths: const [90.0, 50.0],
             cornerRadius: 20.0,
             activeBgColors: [
               [Theme.of(context).colorScheme.secondary],
@@ -32,8 +31,7 @@ class Settings extends StatelessWidget {
             inactiveBgColor: Colors.grey,
             inactiveFgColor: Colors.white,
             totalSwitches: 2,
-            labels: const ['YES', ''],
-            icons: const [null, Icons.stop],
+            labels: const ['YES', 'NO'],
             animate:
                 true, // with just animate set to true, default curve = Curves.easeIn
             curve: Curves.bounceInOut,
@@ -61,19 +59,20 @@ class Settings extends StatelessWidget {
             activeFgColor: Colors.white,
             inactiveBgColor: Colors.grey,
             inactiveFgColor: Colors.white,
-            initialLabelIndex: duration == const Duration(hours: 10)
+            customWidths: [60, 60, 60],
+            initialLabelIndex: duration == const Duration(hours: 12)
                 ? 0
                 : duration == const Duration(days: 10)
                     ? 1
                     : 2,
             totalSwitches: 3,
-            labels: const ['10h', '10t', 'nie'],
+            labels: const ['12h', '10t', 'nie'],
             onToggle: (index) {
               if (index == 0) {
                 Get.find<Controller>().sharedPreferences.setString(
-                    'notizenLöschenNach', const Duration(hours: 10).toString());
+                    'notizenLöschenNach', const Duration(hours: 12).toString());
                 Get.find<Controller>().notizenLoeschenNach =
-                    const Duration(hours: 10);
+                    const Duration(hours: 12);
               } else if (index == 1) {
                 Get.find<Controller>().sharedPreferences.setString(
                     'notizenLöschenNach', const Duration(days: 10).toString());
@@ -108,41 +107,68 @@ class Settings extends StatelessWidget {
               }
             },
           ),
-          // ToggleSwitch(
-          //   animate:
-          //       true, // with just animate set to true, default curve = Curves.easeIn
-          //   curve: Curves.bounceInOut,
-          //   cornerRadius: 20.0,
-          //   activeBgColors: [
-          //     [Theme.of(context).colorScheme.secondary],
-          //     [Theme.of(context).colorScheme.tertiary]
-          //   ],
-          //   activeBgColor: [Theme.of(context).colorScheme.secondary],
-          //   activeFgColor: Colors.white,
-          //   inactiveBgColor: Colors.grey,
-          //   inactiveFgColor: Colors.white,
-          //   initialLabelIndex:
-          //       Get.find<Controller>().sharedPreferences.getBool('darktheme') ??
-          //               false
-          //           ? 1
-          //           : 0,
-          //   totalSwitches: 2,
-          //   labels: const ['Light', 'Dark'],
-          //   onToggle: (index) {
-          //     if (index == 0) {
-          //       Get.find<Controller>()
-          //           .sharedPreferences
-          //           .setBool('darktheme', false);
-          //       Get.changeThemeMode(ThemeMode.light);
-          //     } else {
-          //       Get.find<Controller>()
-          //           .sharedPreferences
-          //           .setBool('darktheme', true);
-          //       Get.changeThemeMode(ThemeMode.dark);
-          //     }
-          //   },
-          // ),
-        )
+        ),
+        SettingButton(
+          description: 'DateTimePicker',
+          child: ToggleSwitch(
+            animate:
+                true, // with just animate set to true, default curve = Curves.easeIn
+            curve: Curves.bounceInOut,
+            cornerRadius: 20.0,
+            customWidths: const [90, 90],
+            activeBgColor: [Theme.of(context).colorScheme.secondary],
+            activeFgColor: Colors.white,
+            inactiveBgColor: Colors.grey,
+            inactiveFgColor: Colors.white,
+            initialLabelIndex:
+                Get.find<Controller>().sharedPreferences.getBool('material') ??
+                        true
+                    ? 0
+                    : 1,
+            totalSwitches: 2,
+            labels: const [
+              'Material',
+              'Cupertino',
+            ],
+            onToggle: (index) {
+              if (index == 0) {
+                Get.find<Controller>()
+                    .sharedPreferences
+                    .setBool('material', true);
+              } else {
+                Get.find<Controller>()
+                    .sharedPreferences
+                    .setBool('material', false);
+              }
+            },
+          ),
+        ),
+        SettingButton(
+          description: 'Neumorphic Design',
+          child: ToggleSwitch(
+            initialLabelIndex: Get.find<Controller>().neumorphic ? 0 : 1,
+            cornerRadius: 20.0,
+            activeBgColors: [
+              [Theme.of(context).colorScheme.secondary],
+              [Theme.of(context).colorScheme.error]
+            ],
+            activeFgColor: Colors.white,
+            inactiveBgColor: Colors.grey,
+            inactiveFgColor: Colors.white,
+            totalSwitches: 2,
+            labels: const ['YES', 'NO'],
+            animate:
+                true, // with just animate set to true, default curve = Curves.easeIn
+            curve: Curves.bounceInOut,
+            onToggle: (index) {
+              if (index == 0) {
+                Get.find<Controller>().setNeumorphic(true);
+              } else {
+                Get.find<Controller>().setNeumorphic(false);
+              }
+            },
+          ),
+        ),
       ],
     );
   }

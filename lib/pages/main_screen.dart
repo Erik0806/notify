@@ -23,7 +23,7 @@ class MainScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: SafeArea(
-        child: GetBuilder(
+        child: GetBuilder<Controller>(
           init: Controller(preferences, flutterLocalNotificationsPlugin),
           builder: (_) => Column(
             children: [

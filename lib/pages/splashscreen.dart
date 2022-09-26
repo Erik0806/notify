@@ -4,6 +4,8 @@ import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:notify/pages/main_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -24,7 +26,7 @@ class SplashFuturePageState extends State<SplashFuturePage> {
       preferences.setString('notifies', '');
     }
     if (!preferences.containsKey('neueNotiz')) {
-      preferences.setBool('neueNotiz', true);
+      preferences.setBool('neueNotiz', false);
     }
     if (!preferences.containsKey('notizenLöschenNach')) {
       preferences.setString(
@@ -35,6 +37,12 @@ class SplashFuturePageState extends State<SplashFuturePage> {
     }
     if (preferences.getBool('darktheme') ?? false) {
       Get.changeThemeMode(ThemeMode.dark);
+    }
+    if (!preferences.containsKey('material')) {
+      preferences.setBool('material', true);
+    }
+    if (!preferences.containsKey('neumorphic')) {
+      preferences.setBool('neumorphic', true);
     }
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
@@ -50,6 +58,8 @@ class SplashFuturePageState extends State<SplashFuturePage> {
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.getLocation('Europe/Berlin'));
+    Intl.defaultLocale = 'de_DE';
+    initializeDateFormatting('de_DE', null);
     return Future.value(MainScreen(
       preferences: preferences,
       flutterLocalNotificationsPlugin: flutterLocalNotificationsPlugin,

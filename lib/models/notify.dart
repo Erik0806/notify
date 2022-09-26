@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class Notify {
+class Notify implements Comparable {
   DateTime fireTime;
   String text;
   int id;
@@ -49,5 +49,20 @@ class Notify {
     return (json.decode(notifies) as List<dynamic>)
         .map<Notify>((item) => Notify.fromJson(item))
         .toList();
+  }
+
+  @override
+  int compareTo(other) {
+    if (other is Notify) {
+      if (fireTime.isBefore(other.fireTime)) {
+        return -1;
+      } else if (fireTime.isAfter(other.fireTime)) {
+        return 1;
+      } else {
+        return 0;
+      }
+    } else {
+      return -1;
+    }
   }
 }

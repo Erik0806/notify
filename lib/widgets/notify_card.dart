@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+import 'package:intl/intl.dart';
 import 'package:notify/controllers/active_notifies_controller.dart';
 import 'package:notify/controllers/archieve_notifies_controller.dart';
 import 'package:notify/widgets/neumorphic_button.dart';
 import 'package:notify/widgets/neumorphic_card.dart';
 
+import '../controllers/controller.dart';
 import '../models/notify.dart';
 
 class NotifyCard extends StatefulWidget {
@@ -40,41 +42,72 @@ class _NotifyCardState extends State<NotifyCard> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    handleDateTimeTap();
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${widget.notify.fireTime.hour.toString().length == 1 ? '0${widget.notify.fireTime.hour}' : widget.notify.fireTime.hour}:${widget.notify.fireTime.minute.toString().length == 1 ? '0${widget.notify.fireTime.minute}' : widget.notify.fireTime.minute}',
-                        style: Theme.of(context).textTheme.headline1,
-                      ),
-                      compact
-                          ? Text(widget.notify.text)
-                          : Text(
-                              '${widget.notify.fireTime.day.toString().length == 1 ? '0${widget.notify.fireTime.day}' : widget.notify.fireTime.day}.${widget.notify.fireTime.month.toString().length == 1 ? '0${widget.notify.fireTime.month}' : widget.notify.fireTime.month}.${widget.notify.fireTime.year}',
+                Flexible(
+                  flex: 2,
+                  child: GestureDetector(
+                    onTap: () {
+                      handleDateTimeTap();
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          crossAxisAlignment: compact
+                              ? CrossAxisAlignment.center
+                              : CrossAxisAlignment.start,
+                          children: [
+                            compact ? Text(getDateString()) : Container(),
+                            Text(
+                              '${widget.notify.fireTime.hour.toString().length == 1 ? '0${widget.notify.fireTime.hour}' : widget.notify.fireTime.hour}:${widget.notify.fireTime.minute.toString().length == 1 ? '0${widget.notify.fireTime.minute}' : widget.notify.fireTime.minute}',
+                              style: Theme.of(context).textTheme.headline1,
+                              maxLines: 1,
                             ),
-                    ],
+                          ],
+                        ),
+                        compact
+                            ? Text(
+                                widget.notify.text,
+                                maxLines: 1,
+                                style: Theme.of(context).textTheme.bodyText1,
+                              )
+                            : Text(
+                                '${widget.notify.fireTime.day.toString().length == 1 ? '0${widget.notify.fireTime.day}' : widget.notify.fireTime.day}.${widget.notify.fireTime.month.toString().length == 1 ? '0${widget.notify.fireTime.month}' : widget.notify.fireTime.month}.${widget.notify.fireTime.year}',
+                              ),
+                      ],
+                    ),
                   ),
                 ),
-                const Spacer(),
-                NeumorphicButton(
-                  margin: 8,
-                  icon: Icon(
-                    compact ? Icons.arrow_drop_down : Icons.arrow_drop_up,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                  inset: true,
-                  onTap: () {
-                    setState(() {
-                      compact = !compact;
-                    });
-                    widget.notify.firstTimeOpen = false;
-                  },
+                Row(
+                  children: [
+                    compact
+                        ? Container()
+                        : NeumorphicButton(
+                            margin: 8,
+                            icon: const Icon(Icons.delete_forever_outlined),
+                            inset: true,
+                            onTap: () {
+                              compact = true;
+                              widget.onDeleteCalled!();
+                            },
+                          ),
+                    NeumorphicButton(
+                      margin: 8,
+                      icon: Icon(
+                        compact ? Icons.arrow_drop_down : Icons.arrow_drop_up,
+                      ),
+                      inset: true,
+                      onTap: () {
+                        setState(() {
+                          compact = !compact;
+                        });
+                        widget.notify.firstTimeOpen = false;
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -112,52 +145,87 @@ class _NotifyCardState extends State<NotifyCard> {
                       },
                     ),
                   ),
-            compact
-                ? Container()
-                : NeumorphicButton(
-                    margin: 8,
-                    icon: const Icon(Icons.delete_forever_outlined),
-                    inset: true,
-                    onTap: () {
-                      widget.onDeleteCalled!();
-                    },
-                  ),
           ],
         ),
       ),
     );
   }
 
-  handleDateTimeTap() {
+  String getDateString() {
+    if (widget.notify.fireTime.difference(DateTime.now()).inDays <= 6) {
+      int fireDay = widget.notify.fireTime.day;
+      int today = DateTime.now().day;
+
+      if (fireDay == today) {
+        return 'Heute';
+      } else if (fireDay - today == 1) {
+        return 'Morgen';
+      } else if (fireDay > today) {
+        return 'Nächsten ${DateFormat('EEEEEEEEE').format(widget.notify.fireTime)}';
+      } else {
+        return 'Letzten ${DateFormat('EEEEEEEEE').format(widget.notify.fireTime)}';
+      }
+    }
+    return DateFormat('EE dd.MM.', 'de_DE').format(widget.notify.fireTime);
+  }
+
+  handleDateTimeTap() async {
     if (compact) {
       setState(() {
         compact = false;
+        widget.notify.firstTimeOpen = false;
       });
-      widget.notify.firstTimeOpen = false;
     } else {
       widget.notify.firstTimeOpen = false;
-      if (Get.isRegistered<ActiveNotifiesController>()) {
-        Get.find<ActiveNotifiesController>().update();
-      } else if (Get.isRegistered<ArchieveNotifiesController>()) {
-        Get.find<ArchieveNotifiesController>().update();
-      }
-      DatePicker.showDateTimePicker(
-        context,
-        showTitleActions: true,
-        minTime: DateTime.now().add(const Duration(minutes: 2)),
-        maxTime: DateTime(2100, 0, 0),
-        onConfirm: (date) {
+      //Material Date Picker
+      if (Get.find<Controller>().sharedPreferences.getBool('material') ??
+          true) {
+        DateTime? date = await showDatePicker(
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime.now(),
+          lastDate: DateTime(2100),
+        );
+        TimeOfDay? time;
+        if (date != null) {
+          time = await showTimePicker(
+            context: context,
+            initialTime: TimeOfDay.now(),
+          );
+        }
+        if (date != null && time != null) {
+          compact = true;
+          DateTime newDate =
+              DateTime(date.year, date.month, date.day, time.hour, time.minute);
           if (Get.isRegistered<ActiveNotifiesController>()) {
             Get.find<ActiveNotifiesController>()
-                .changeNotifyTime(widget.notify.id, date);
+                .changeNotifyTime(widget.notify.id, newDate);
           } else if (Get.isRegistered<ArchieveNotifiesController>()) {
             Get.find<ArchieveNotifiesController>()
-                .changeNotifyTime(widget.notify.id, date);
+                .changeNotifyTime(widget.notify.id, newDate);
           }
-        },
-        currentTime: widget.notify.fireTime,
-        locale: LocaleType.de,
-      );
+        }
+        //Cupertino DatePicker
+      } else {
+        DatePicker.showDateTimePicker(
+          context,
+          showTitleActions: true,
+          minTime: DateTime.now().add(const Duration(minutes: 2)),
+          maxTime: DateTime(2100, 0, 0),
+          onConfirm: (date) {
+            compact = true;
+            if (Get.isRegistered<ActiveNotifiesController>()) {
+              Get.find<ActiveNotifiesController>()
+                  .changeNotifyTime(widget.notify.id, date);
+            } else if (Get.isRegistered<ArchieveNotifiesController>()) {
+              Get.find<ArchieveNotifiesController>()
+                  .changeNotifyTime(widget.notify.id, date);
+            }
+          },
+          currentTime: widget.notify.fireTime,
+          locale: LocaleType.de,
+        );
+      }
     }
   }
 }

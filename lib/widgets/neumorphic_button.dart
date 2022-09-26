@@ -1,6 +1,9 @@
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
+import 'package:get/get.dart';
 import 'package:notify/utils/color_utils.dart';
+
+import '../controllers/controller.dart';
 
 class NeumorphicButton extends StatefulWidget {
   const NeumorphicButton({
@@ -23,6 +26,7 @@ class NeumorphicButton extends StatefulWidget {
 
 class _NeumorphicButtonState extends State<NeumorphicButton> {
   bool isPressed = false;
+  bool neumorphic = Get.find<Controller>().neumorphic;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -46,9 +50,13 @@ class _NeumorphicButtonState extends State<NeumorphicButton> {
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeOut,
         decoration: BoxDecoration(
+          border: neumorphic
+              ? null
+              : Border.all(
+                  width: 2, color: Theme.of(context).colorScheme.surface),
           color: Theme.of(context).backgroundColor,
           borderRadius: widget.borderRadius ?? BorderRadius.circular(12),
-          boxShadow: isPressed
+          boxShadow: isPressed || !neumorphic
               ? []
               : [
                   BoxShadow(

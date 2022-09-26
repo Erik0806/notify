@@ -45,6 +45,7 @@ dependencies:
   flutter_datetime_picker: ^1.5.1
   duration: ^3.0.11
   day_night_switcher: ^0.2.0+1
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

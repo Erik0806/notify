@@ -33,6 +33,9 @@ class _SettingButtonState extends State<SettingButton> {
                 textWidthBasis: TextWidthBasis.parent,
               ),
             ),
+            const SizedBox(
+              width: 30,
+            ),
             widget.child,
           ],
         ),

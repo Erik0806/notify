@@ -30,6 +30,9 @@ class ActiveNotifiesController extends GetxController {
         activeNotifies.add(notify);
       }
     }
+    activeNotifies.sort(
+      (a, b) => a.compareTo(b),
+    );
     if (Get.find<Controller>().justStarted && newNode) {
       addNotify(true);
       Get.find<Controller>().justStarted = false;
@@ -65,6 +68,9 @@ class ActiveNotifiesController extends GetxController {
       Get.find<Controller>().notifies.add(notify);
       activeNotifies.add(notify);
     }
+    activeNotifies.sort(
+      (a, b) => a.compareTo(b),
+    );
     Get.find<Controller>().safeAll();
     Get.find<Controller>().createNotification(notify);
     update();
@@ -118,6 +124,9 @@ class ActiveNotifiesController extends GetxController {
       Notify notify = activeNotifies[place];
       Get.find<Controller>().changeNotification(notify);
     }
+    activeNotifies.sort(
+      (a, b) => a.compareTo(b),
+    );
     Get.find<Controller>().safeAll();
     update();
   }
