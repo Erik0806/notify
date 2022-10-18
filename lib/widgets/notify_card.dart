@@ -1,3 +1,4 @@
+import 'package:duration/duration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:get/get.dart';
@@ -69,11 +70,14 @@ class _NotifyCardState extends State<NotifyCard> {
                           ],
                         ),
                         compact
-                            ? Text(
-                                widget.notify.text,
-                                maxLines: 1,
-                                style: Theme.of(context).textTheme.bodyText1,
-                              )
+                            ? widget.notify.text != ""
+                                ? Text(
+                                    widget.notify.text,
+                                    maxLines: 1,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  )
+                                : const SizedBox()
                             : Text(
                                 '${widget.notify.fireTime.day.toString().length == 1 ? '0${widget.notify.fireTime.day}' : widget.notify.fireTime.day}.${widget.notify.fireTime.month.toString().length == 1 ? '0${widget.notify.fireTime.month}' : widget.notify.fireTime.month}.${widget.notify.fireTime.year}',
                               ),
@@ -152,15 +156,18 @@ class _NotifyCardState extends State<NotifyCard> {
   }
 
   String getDateString() {
-    if (widget.notify.fireTime.difference(DateTime.now()).inDays <= 6) {
-      int fireDay = widget.notify.fireTime.day;
-      int today = DateTime.now().day;
+    DateTime fireTime = widget.notify.fireTime;
+    DateTime now = DateTime.now();
+    int difference = fireTime.difference(now).inDays;
+    if (fireTime.difference(now).inDays.abs() <= 6) {
+      int fireDay = fireTime.day;
+      int today = now.day;
 
       if (fireDay == today) {
         return 'Heute';
       } else if (fireDay - today == 1) {
         return 'Morgen';
-      } else if (fireDay > today) {
+      } else if (fireDay > today && fireTime.month >= now.month) {
         return 'Nächsten ${DateFormat('EEEEEEEEE').format(widget.notify.fireTime)}';
       } else {
         return 'Letzten ${DateFormat('EEEEEEEEE').format(widget.notify.fireTime)}';
@@ -210,7 +217,9 @@ class _NotifyCardState extends State<NotifyCard> {
         DatePicker.showDateTimePicker(
           context,
           showTitleActions: true,
-          minTime: DateTime.now().add(const Duration(minutes: 2)),
+          // minTime: DateTime.now().subtract(days(10)),
+
+          minTime: DateTime.now().add(minutes(2)),
           maxTime: DateTime(2100, 0, 0),
           onConfirm: (date) {
             compact = true;
