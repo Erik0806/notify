@@ -190,7 +190,7 @@ class _NotifyCardState extends State<NotifyCard> {
           true) {
         DateTime? date = await showDatePicker(
           context: context,
-          initialDate: DateTime.now(),
+          initialDate: widget.notify.fireTime,
           firstDate: DateTime.now(),
           lastDate: DateTime(2100),
           locale: const Locale('de', 'DE'),
@@ -199,7 +199,7 @@ class _NotifyCardState extends State<NotifyCard> {
         if (date != null) {
           time = await showTimePicker(
             context: context,
-            initialTime: TimeOfDay.now(),
+            initialTime: TimeOfDay.fromDateTime(widget.notify.fireTime),
           );
         }
         if (date != null && time != null) {
