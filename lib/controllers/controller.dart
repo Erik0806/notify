@@ -39,6 +39,12 @@ class Controller extends GetxController {
     if (Platform.isAndroid) {
       if (notify.fireTime
           .isBefore(DateTime.now().add(const Duration(seconds: 10)))) {
+        Get.snackbar(
+          'Benachrichtigung wurde nicht erstellt',
+          'Die Benachrichtigung wird nicht gesendet, da die Auslösezeit vor der aktuellen Zeit liegt',
+          snackPosition: SnackPosition.BOTTOM,
+          margin: const EdgeInsets.all(8),
+        );
         return;
       }
       await flutterLocalNotificationsPlugin.zonedSchedule(
@@ -81,5 +87,11 @@ class Controller extends GetxController {
     sharedPreferences.setBool('neumorphic', pNeumorphic);
     neumorphic = pNeumorphic;
     update();
+    Get.snackbar(
+      'Neustart benötigt',
+      'Damit die Einstellung angewendet werden, muss die App neugestartet werden',
+      snackPosition: SnackPosition.BOTTOM,
+      margin: const EdgeInsets.all(8),
+    );
   }
 }

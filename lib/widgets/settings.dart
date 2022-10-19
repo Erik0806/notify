@@ -62,7 +62,7 @@ class Settings extends StatelessWidget {
               activeFgColor: Colors.white,
               inactiveBgColor: Colors.grey,
               inactiveFgColor: Colors.white,
-              customWidths: [60, 60, 60],
+              customWidths: const [60, 60, 60],
               initialLabelIndex: duration == const Duration(hours: 12)
                   ? 0
                   : duration == const Duration(days: 10)

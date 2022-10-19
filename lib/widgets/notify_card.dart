@@ -191,7 +191,9 @@ class _NotifyCardState extends State<NotifyCard> {
         DateTime? date = await showDatePicker(
           context: context,
           initialDate: widget.notify.fireTime,
-          firstDate: DateTime.now(),
+          firstDate: widget.notify.fireTime.isBefore(DateTime.now())
+              ? widget.notify.fireTime
+              : DateTime.now(),
           lastDate: DateTime(2100),
           locale: const Locale('de', 'DE'),
         );
@@ -221,7 +223,9 @@ class _NotifyCardState extends State<NotifyCard> {
           showTitleActions: true,
           // minTime: DateTime.now().subtract(days(10)),
 
-          minTime: DateTime.now().add(minutes(2)),
+          minTime: widget.notify.fireTime.isBefore(DateTime.now())
+              ? widget.notify.fireTime
+              : DateTime.now().add(minutes(2)),
           maxTime: DateTime(2100, 0, 0),
           onConfirm: (date) {
             compact = true;
