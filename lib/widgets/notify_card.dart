@@ -8,6 +8,7 @@ import 'package:notify/controllers/active_notifies_controller.dart';
 import 'package:notify/controllers/archieve_notifies_controller.dart';
 import 'package:notify/widgets/neumorphic_button.dart';
 import 'package:notify/widgets/neumorphic_card.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../controllers/controller.dart';
 import '../models/notify.dart';
@@ -192,6 +193,7 @@ class _NotifyCardState extends State<NotifyCard> {
           initialDate: DateTime.now(),
           firstDate: DateTime.now(),
           lastDate: DateTime(2100),
+          locale: const Locale('de', 'DE'),
         );
         TimeOfDay? time;
         if (date != null) {

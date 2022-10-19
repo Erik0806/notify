@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:notify/pages/splashscreen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() => runApp(const MyApp());
 
@@ -75,6 +76,15 @@ class MyApp extends StatelessWidget {
           headline1: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
         ),
       ),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('de', ''), // English, no country code
+        Locale('en', ''), // Spanish, no country code
+      ],
       home: const SplashFuturePage(),
     );
   }
