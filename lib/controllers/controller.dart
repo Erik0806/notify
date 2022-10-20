@@ -44,6 +44,7 @@ class Controller extends GetxController {
           'Die Benachrichtigung wird nicht gesendet, da die Auslösezeit vor der aktuellen Zeit liegt',
           snackPosition: SnackPosition.BOTTOM,
           margin: const EdgeInsets.all(8),
+          backgroundColor: Get.isDarkMode ? Colors.grey : null,
         );
         return;
       }
@@ -92,6 +93,7 @@ class Controller extends GetxController {
       'Damit die Einstellung angewendet werden, muss die App neugestartet werden',
       snackPosition: SnackPosition.BOTTOM,
       margin: const EdgeInsets.all(8),
+      backgroundColor: Get.isDarkMode ? Colors.grey : null,
     );
   }
 }
