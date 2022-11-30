@@ -159,16 +159,22 @@ class _NotifyCardState extends State<NotifyCard> {
   String getDateString() {
     DateTime fireTime = widget.notify.fireTime;
     DateTime now = DateTime.now();
-    int difference = fireTime.difference(now).inDays;
-    if (fireTime.difference(now).inDays.abs() <= 6) {
+    int difference2 = fireTime
+        .subtract(Duration(hours: fireTime.hour, minutes: fireTime.minute))
+        .difference(
+            now.subtract(Duration(hours: now.hour, minutes: now.minute)))
+        .inDays;
+    //int difference = fireTime.difference(now).inDays;
+    if (difference2.abs() <= 6) {
       int fireDay = fireTime.day;
       int today = now.day;
 
       if (fireDay == today) {
         return 'Heute';
-      } else if (fireDay - today == 1) {
+      } else if (fireDay - today == 1 ||
+          (difference2 == 0 && fireTime.month > now.month)) {
         return 'Morgen';
-      } else if (fireDay > today && fireTime.month >= now.month) {
+      } else if (fireDay > today || fireTime.month > now.month) {
         return 'Nächsten ${DateFormat('EEEEEEEEE').format(widget.notify.fireTime)}';
       } else {
         return 'Letzten ${DateFormat('EEEEEEEEE').format(widget.notify.fireTime)}';
@@ -195,7 +201,6 @@ class _NotifyCardState extends State<NotifyCard> {
               ? widget.notify.fireTime
               : DateTime.now(),
           lastDate: DateTime(2100),
-          locale: const Locale('de', 'DE'),
         );
         TimeOfDay? time;
         if (date != null) {
