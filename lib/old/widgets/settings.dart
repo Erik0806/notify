@@ -1,7 +1,7 @@
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:notify/widgets/setting_button.dart';
+import 'package:notify/old/widgets/setting_button.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 import '../controllers/controller.dart';

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:notify/controllers/active_notifies_controller.dart';
-import 'package:notify/widgets/neumorphic_button.dart';
-import 'package:notify/widgets/neumorphic_card.dart';
-import 'package:notify/widgets/notify_card.dart';
+import 'package:notify/old/controllers/active_notifies_controller.dart';
+import 'package:notify/old/widgets/neumorphic_button.dart';
+import 'package:notify/old/widgets/neumorphic_card.dart';
+import 'package:notify/old/widgets/notify_card.dart';
 
 class ActiveNotifies extends StatelessWidget {
   const ActiveNotifies({super.key});

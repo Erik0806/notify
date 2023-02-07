@@ -4,14 +4,14 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:intl/intl.dart';
-import 'package:notify/controllers/active_notifies_controller.dart';
-import 'package:notify/controllers/archieve_notifies_controller.dart';
-import 'package:notify/widgets/neumorphic_button.dart';
-import 'package:notify/widgets/neumorphic_card.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:notify/old/widgets/neumorphic_card.dart';
 
+import '../controllers/active_notifies_controller.dart';
+import '../controllers/archieve_notifies_controller.dart';
 import '../controllers/controller.dart';
 import '../models/notify.dart';
+import 'neumorphic_button.dart';
 
 class NotifyCard extends StatefulWidget {
   const NotifyCard(

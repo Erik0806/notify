@@ -1,7 +1,7 @@
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:get/get.dart';
-import 'package:notify/utils/color_utils.dart';
+import 'package:notify/old/utils/color_utils.dart';
 
 import '../controllers/controller.dart';
 

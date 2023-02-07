@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:notify/controllers/archieve_notifies_controller.dart';
+import 'package:notify/old/controllers/archieve_notifies_controller.dart';
 import 'notify_card.dart';
 
 class ArchieveNotifies extends StatelessWidget {
