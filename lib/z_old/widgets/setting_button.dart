@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notify/old/widgets/neumorphic_card.dart';
+import 'package:notify/z_old/widgets/neumorphic_card.dart';
 
 class SettingButton extends StatefulWidget {
   const SettingButton({

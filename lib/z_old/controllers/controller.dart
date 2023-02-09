@@ -4,7 +4,7 @@ import 'package:duration/duration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:notify/old/models/notify.dart';
+import 'package:notify/z_old/models/notify.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/timezone.dart' as tz;
 

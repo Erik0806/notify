@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:notify/old/controllers/controller.dart';
+import 'package:notify/z_old/controllers/controller.dart';
 
 import '../models/notify.dart';
 

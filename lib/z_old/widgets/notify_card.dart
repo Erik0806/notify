@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:notify/old/widgets/neumorphic_card.dart';
+import 'package:notify/z_old/widgets/neumorphic_card.dart';
 
 import '../controllers/active_notifies_controller.dart';
 import '../controllers/archieve_notifies_controller.dart';

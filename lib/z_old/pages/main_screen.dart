@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:notify/old/controllers/controller.dart';
-import 'package:notify/old/widgets/actives_notify.dart';
-import 'package:notify/old/widgets/archieve_notify.dart';
-import 'package:notify/old/widgets/neumorphic_button.dart';
-import 'package:notify/old/widgets/neumorphic_card.dart';
-import 'package:notify/old/widgets/settings.dart';
+import 'package:notify/z_old/controllers/controller.dart';
+import 'package:notify/z_old/widgets/actives_notify.dart';
+import 'package:notify/z_old/widgets/archieve_notify.dart';
+import 'package:notify/z_old/widgets/neumorphic_button.dart';
+import 'package:notify/z_old/widgets/neumorphic_card.dart';
+import 'package:notify/z_old/widgets/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainScreen extends StatelessWidget {
