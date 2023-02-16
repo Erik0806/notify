@@ -1,13 +1,13 @@
-import 'package:notify/src/features/settings/domain/theme_enum.dart';
+import 'package:flutter/material.dart';
 
 class Settings {
   bool newNotifyAfterOpeningApp;
   Duration deleteArchivedNotesAfter;
-  ThemeEnum themeEnum;
+  ThemeMode themeMode;
 
   Settings({
     required this.newNotifyAfterOpeningApp,
     required this.deleteArchivedNotesAfter,
-    required this.themeEnum,
+    required this.themeMode,
   });
 }

@@ -1,28 +1,24 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:notify/main.dart';
 import 'package:notify/src/features/settings/data/settings_repository.dart';
 
-import '../domain/theme_enum.dart';
+class SettingsScreenController {
+  SettingsScreenController({required this.ref});
 
-class SettingsScreenController extends StateNotifier<AsyncValue<void>> {
-  SettingsScreenController({required this.settingsRepository})
-      : super(const AsyncData(null));
+  final Ref ref;
 
-  final SettingsRepository settingsRepository;
-
-  void saveSettings(bool newNotifyAfterOpeningAppNew,
-      Duration deleteArchiveNotesAfterNew, ThemeEnum themeEnumNew) {
-    settingsRepository.saveSettings(
-        newNotifyAfterOpeningAppNew, deleteArchiveNotesAfterNew, themeEnumNew);
+  void switchTheme(ThemeMode thememode) {
+    ref.read(themeModeProvider.notifier).state = thememode;
+    ref.read(settingsRepositoryProvider.notifier).saveThemeEnum(thememode);
   }
 }
 
-final settingsScreenControllerProvider = StateNotifierProvider.autoDispose<
-    SettingsScreenController, AsyncValue<void>>(
+final settingsScreenControllerProvider =
+    Provider.autoDispose<SettingsScreenController>(
   (ref) {
     return SettingsScreenController(
-      settingsRepository: ref.watch(
-        settingsRepositoryProvider,
-      ),
+      ref: ref,
     );
   },
 );

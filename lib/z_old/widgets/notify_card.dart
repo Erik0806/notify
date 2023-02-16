@@ -1,10 +1,11 @@
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
+
 import 'package:duration/duration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:notify/z_old/widgets/neumorphic_card.dart';
 
 import '../controllers/active_notifies_controller.dart';
