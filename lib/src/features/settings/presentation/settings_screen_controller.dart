@@ -17,7 +17,6 @@ class SettingsScreenController {
     ref
         .read(settingsRepositoryProvider.notifier)
         .saveLocalizationCountryCode(localizationCode);
-    //TODO implement
   }
 }
 

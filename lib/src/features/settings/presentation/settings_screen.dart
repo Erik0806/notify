@@ -141,7 +141,6 @@ class SettingsScreen extends ConsumerWidget {
           ),
           GestureDetector(
             onTap: () {
-              //TODO add sound
               ref.read(soundRepositoryProvider).playSound('For Frodo');
             },
             child: Center(
