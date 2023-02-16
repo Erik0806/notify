@@ -35,6 +35,7 @@ class NotifyCard extends HookConsumerWidget {
         }
       },
       child: Slidable(
+        closeOnScroll: true,
         startActionPane: ActionPane(
           motion: const BehindMotion(),
           // extentRatio: 0.5,
@@ -156,19 +157,21 @@ class NotifyCard extends HookConsumerWidget {
                       intNotify.fireTime,
                       dateFormat: true,
                     ),
-                    // ref
-                    //     .read(notifyControllerProvider.notifier)
-                    //     .getNotifyDateText(
-                    //       notify.fireTime,
-                    //       dateFormat: true,
-                    //     ),
                     timeText: NotifyController.getNotifyTimeText(
                       intNotify.fireTime,
                     ),
-                    onDeleteTap: () {
-                      ref
-                          .read(notifyRepositoryProvider.notifier)
-                          .removeNotify(notify.id);
+                    onDeleteTap: (BuildContext newContext) {
+                      Slidable.of(newContext)?.dismiss(
+                        ResizeRequest(
+                          const Duration(milliseconds: 300),
+                          () {
+                            ref
+                                .read(notifyRepositoryProvider.notifier)
+                                .removeNotify(notify.id);
+                          },
+                        ),
+                      );
+
                       // ref.read(currentNotifyProvider.notifier).dispose();
                     },
                     onDoneTap: (newFireTime, newText) {
@@ -260,7 +263,7 @@ class ExpandedNotifyCard extends HookConsumerWidget {
   final String timeText;
   final String dateText;
   final Function(DateTime newFireTime, String newText)? onDoneTap;
-  final Function()? onDeleteTap;
+  final Function(BuildContext context)? onDeleteTap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -365,7 +368,9 @@ class ExpandedNotifyCard extends HookConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             TextButton(
-              onPressed: onDeleteTap,
+              onPressed: () {
+                onDeleteTap!(context);
+              },
               child: Text(
                 'Delete',
                 style: Theme.of(context)

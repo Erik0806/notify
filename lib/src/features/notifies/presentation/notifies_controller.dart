@@ -1,8 +1,6 @@
-import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notify/src/features/notifies/data/notify_repository.dart';
 import 'package:notify/src/features/notifies/domain/notify.dart';
-import 'package:notify/src/features/settings/data/settings_repository.dart';
 
 class NotifyController extends StateNotifier<NotifyRepository> {
   NotifyController(this.notifyRepository, this.ref) : super(notifyRepository);
@@ -71,7 +69,7 @@ final currentNotifyProvider = StateProvider<Notify>(
 );
 
 final notifyExpandedProvider = StateProvider<int>(
-  (ref) => 0,
+  (ref) => ref.read(notifyRepositoryProvider.notifier).activeNotify,
 );
 
 final wasExpandedProvider = StateProvider<bool>(

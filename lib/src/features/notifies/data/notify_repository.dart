@@ -3,21 +3,25 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:notify/main.dart';
 import 'package:notify/src/features/notifies/data/notification_repository.dart';
 import 'package:notify/src/features/notifies/data/sound_repository.dart';
+import 'package:notify/src/features/notifies/data/statistics_repository.dart';
 import 'package:notify/src/features/notifies/domain/notify.dart';
 import 'package:notify/src/features/settings/data/settings_repository.dart';
+import 'package:notify/src/utils/logger.dart';
+import 'package:notify/src/utils/shared_preferences_provider.dart';
+import 'package:notify/src/utils/shared_prefs_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotifyRepository extends StateNotifier<List<Notify>> {
   NotifyRepository(this.ref, SharedPreferences preferences) : super([]) {
     state = _loadNotifies(preferences);
     if (ref.read(appOpenedProvider)) {
-      addNotify();
+      activeNotify = addNotify();
       // ref.read(appOpenedProvider.notifier).state = false;
     }
   }
+  int activeNotify = 0;
 
   final Ref ref;
 
@@ -47,6 +51,7 @@ class NotifyRepository extends StateNotifier<List<Notify>> {
     state = [notify, ...state];
 
     ref.read(notificationRepositoryProvider).createNotification(notify);
+    ref.read(statsRepositoryProvider.notifier).addNewNotifyToStats();
 
     saveNotifies();
     return notify.id;
@@ -61,6 +66,7 @@ class NotifyRepository extends StateNotifier<List<Notify>> {
     ref.read(loggerProvider).i('deleted');
 
     ref.read(notificationRepositoryProvider).deleteNotification(id);
+    ref.read(statsRepositoryProvider.notifier).addDeletedNotifyToStats();
 
     saveNotifies();
   }
@@ -101,18 +107,19 @@ class NotifyRepository extends StateNotifier<List<Notify>> {
     ref.read(notificationRepositoryProvider).changeNotification(newNotify);
     debugPrint('hi');
     ref.read(soundRepositoryProvider).playSound(newText);
+    ref.read(statsRepositoryProvider.notifier).addChangedNotifyToStats();
 
     saveNotifies();
   }
 
   static List<Notify> _loadNotifies(SharedPreferences sharedPreferences) {
-    return Notify.decode(sharedPreferences.getString('notifies') ?? '');
+    return Notify.decode(sharedPreferences.getString(notifiesKey) ?? '');
   }
 
   saveNotifies() {
     ref
         .read(sharedPreferencesProvider)
-        .setString('notifies', Notify.encode(state));
+        .setString(notifiesKey, Notify.encode(state));
     state = state;
   }
 }

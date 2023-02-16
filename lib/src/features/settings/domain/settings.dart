@@ -4,10 +4,12 @@ class Settings {
   bool newNotifyAfterOpeningApp;
   Duration deleteArchivedNotesAfter;
   ThemeMode themeMode;
+  String localizationCountryCode;
 
   Settings({
-    required this.newNotifyAfterOpeningApp,
-    required this.deleteArchivedNotesAfter,
-    required this.themeMode,
+    this.newNotifyAfterOpeningApp = false,
+    this.deleteArchivedNotesAfter = Duration.zero,
+    this.themeMode = ThemeMode.system,
+    this.localizationCountryCode = 'de',
   });
 }

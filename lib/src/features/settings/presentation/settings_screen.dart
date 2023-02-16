@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:notify/main.dart';
+import 'package:notify/src/features/notifies/data/sound_repository.dart';
 import 'package:notify/src/features/settings/data/settings_repository.dart';
 import 'package:notify/src/features/settings/presentation/settings_screen_controller.dart';
+import 'package:notify/src/utils/logger.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -102,6 +103,43 @@ class SettingsScreen extends ConsumerWidget {
                     .read(settingsScreenControllerProvider)
                     .switchTheme(themeMode);
               },
+            ),
+          ),
+          ListTile(
+            title: const Text('Language:'),
+            trailing: ToggleSwitch(
+              animate:
+                  true, // with just animate set to true, default curve = Curves.easeIn
+              curve: Curves.bounceInOut,
+              cornerRadius: 20.0,
+              initialLabelIndex: state.localizationCountryCode == 'de' ? 0 : 1,
+              totalSwitches: 2,
+              minWidth: 110,
+              labels: const [
+                'Deutsch',
+                'English',
+              ],
+              onToggle: (index) {
+                String countryCode = 'de';
+                if (index == 1) {
+                  countryCode = 'en';
+                }
+                ref.read(settingsScreenControllerProvider).changeLanguage(
+                      countryCode,
+                    );
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 50,
+          ),
+          GestureDetector(
+            onTap: () {
+              //TODO add sound
+              ref.read(soundRepositoryProvider).playSound('For Frodo');
+            },
+            child: const Center(
+              child: Text('For Frodo'),
             ),
           ),
         ],

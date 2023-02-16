@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:notify/main.dart';
 import 'package:notify/src/features/settings/domain/settings.dart';
-import 'package:notify/src/features/settings/domain/settings_keys.dart';
+import 'package:notify/src/utils/shared_prefs_keys.dart';
+import 'package:notify/src/utils/logger.dart';
+import 'package:notify/src/utils/shared_preferences_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsRepository extends StateNotifier<Settings> {
@@ -12,8 +13,19 @@ class SettingsRepository extends StateNotifier<Settings> {
 
   Settings settings;
 
+  saveLocalizationCountryCode(String value) {
+    saveSpecificSetting(localizationCountryCodeKey, value);
+    state.localizationCountryCode = value;
+    state = Settings(
+      newNotifyAfterOpeningApp: state.newNotifyAfterOpeningApp,
+      deleteArchivedNotesAfter: state.deleteArchivedNotesAfter,
+      themeMode: state.themeMode,
+      localizationCountryCode: state.localizationCountryCode,
+    );
+  }
+
   saveNewNotifyAfterOpeningApp(bool value) {
-    saveSpecificSetting(newNotifyAfterOpeningApp, value);
+    saveSpecificSetting(newNotifyAfterOpeningAppKey, value);
     state.newNotifyAfterOpeningApp = value;
     state = Settings(
         newNotifyAfterOpeningApp: state.newNotifyAfterOpeningApp,
@@ -22,7 +34,7 @@ class SettingsRepository extends StateNotifier<Settings> {
   }
 
   saveDeleteArchivedNotesAfter(Duration value) {
-    saveSpecificSetting(deleteArchivedNotesAfter, value);
+    saveSpecificSetting(deleteArchivedNotesAfterKey, value);
     state.deleteArchivedNotesAfter = value;
     state = Settings(
         newNotifyAfterOpeningApp: state.newNotifyAfterOpeningApp,
@@ -31,7 +43,7 @@ class SettingsRepository extends StateNotifier<Settings> {
   }
 
   saveThemeEnum(ThemeMode value) {
-    saveSpecificSetting(themeEnum, value);
+    saveSpecificSetting(themeEnumKey, value);
     state.themeMode = value;
     state = Settings(
         newNotifyAfterOpeningApp: state.newNotifyAfterOpeningApp,
@@ -73,14 +85,16 @@ class SettingsRepository extends StateNotifier<Settings> {
   static Settings _loadSettings(SharedPreferences preferences) {
     return Settings(
       newNotifyAfterOpeningApp:
-          preferences.getBool(newNotifyAfterOpeningApp) ?? false,
-      deleteArchivedNotesAfter:
-          Duration(seconds: preferences.getInt(deleteArchivedNotesAfter) ?? 0),
-      themeMode: preferences.getInt(themeEnum) == 1
+          preferences.getBool(newNotifyAfterOpeningAppKey) ?? false,
+      deleteArchivedNotesAfter: Duration(
+          seconds: preferences.getInt(deleteArchivedNotesAfterKey) ?? 0),
+      themeMode: preferences.getInt(themeEnumKey) == 1
           ? ThemeMode.light
-          : preferences.getInt(themeEnum) == 2
+          : preferences.getInt(themeEnumKey) == 2
               ? ThemeMode.dark
               : ThemeMode.system,
+      localizationCountryCode:
+          preferences.getString(localizationCountryCodeKey) ?? 'de',
     );
   }
 }

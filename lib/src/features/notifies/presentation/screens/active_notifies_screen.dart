@@ -7,7 +7,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notify/src/common_widgets/notify_logo.dart';
 import 'package:notify/src/features/notifies/data/notify_repository.dart';
 import 'package:notify/src/features/notifies/presentation/notifies_controller.dart';
-import 'package:notify/src/features/notifies/presentation/notify_card.dart';
+import 'package:notify/src/features/notifies/presentation/widgets/notify_card.dart';
+import 'package:notify/src/features/notifies/presentation/widgets/stats_widget.dart';
 import 'package:notify/src/features/settings/data/settings_repository.dart';
 
 class ActiveNotifiesScreen extends ConsumerWidget {
@@ -86,18 +87,37 @@ class ActiveNotifiesScreen extends ConsumerWidget {
         ),
       ),
       body: state.isEmpty
-          ? const Center(
-              heightFactor: 4,
-              child: Text('No active notifies'),
+          ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                heightFactor: 1,
+                child: Column(
+                  children: const [
+                    Text('No active notifies'),
+                    StatsWidget(),
+                  ],
+                ),
+              ),
             )
           : ListView.builder(
-              itemCount: state.length + 1,
+              itemCount: state.length + 2,
               itemBuilder: (context, index) {
                 if (index >= state.length) {
-                  return const SizedBox(
-                    //So the floatingactionbutton does not overshadow anything
-                    height: 80,
-                  );
+                  if (index == state.length) {
+                    return Column(
+                      children: const [
+                        SizedBox(
+                          height: 30,
+                        ),
+                        StatsWidget(),
+                      ],
+                    );
+                  } else {
+                    return const SizedBox(
+                      //So the floatingactionbutton does not overshadow anything
+                      height: 80,
+                    );
+                  }
                 }
                 return ProviderScope(
                   overrides: [

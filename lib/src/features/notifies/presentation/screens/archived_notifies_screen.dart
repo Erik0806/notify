@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notify/src/features/notifies/presentation/notifies_controller.dart';
-import 'package:notify/src/features/notifies/presentation/notify_card.dart';
+import 'package:notify/src/features/notifies/presentation/widgets/notify_card.dart';
 
 class ArchievedNotifiesScreen extends ConsumerWidget {
   const ArchievedNotifiesScreen({super.key});
