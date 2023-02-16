@@ -10,7 +10,7 @@ import 'package:notify/src/features/notifies/domain/notify.dart';
 import 'package:notify/src/features/settings/data/settings_repository.dart';
 import 'package:notify/src/utils/logger.dart';
 import 'package:notify/src/utils/shared_preferences_provider.dart';
-import 'package:notify/src/utils/shared_prefs_keys.dart';
+import 'package:notify/src/constants/shared_prefs_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotifyRepository extends StateNotifier<List<Notify>> {

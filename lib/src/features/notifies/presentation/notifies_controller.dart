@@ -1,4 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:notify/src/features/notifies/data/notify_repository.dart';
 import 'package:notify/src/features/notifies/domain/notify.dart';
 
@@ -27,10 +28,7 @@ class NotifyController extends StateNotifier<NotifyRepository> {
     bool dateFormat = false,
   }) {
     if (dateFormat) {
-      int day = dateTime.day;
-      int month = dateTime.month;
-      int year = dateTime.year;
-      return '${day.toString().length == 1 ? '0$day' : day}.${month.toString().length == 1 ? '0$month' : month}.$year';
+      return DateFormat('EE dd.MM.yyyy', 'de_DE').format(dateTime);
     } else {
       //TODO Implement
       return 'hi';

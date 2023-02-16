@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notify/src/features/notifies/data/notification_repository.dart';
-import 'package:notify/src/utils/shared_prefs_keys.dart';
+import 'package:notify/src/constants/shared_prefs_keys.dart';
 import 'package:notify/src/routing/router.dart';
 import 'package:notify/src/utils/shared_preferences_provider.dart';
 import 'package:notify/src/utils/theme_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -56,12 +58,20 @@ class NotifyMain extends ConsumerWidget {
     ThemeMode themeMode = ref.watch(themeModeProvider);
     return MaterialApp.router(
       routerConfig: router,
-      // color: Colors.white,
       title: 'Notify',
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: themeMode,
-      // home: const SettingsScreen(),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('de'),
+        Locale('en'),
+      ],
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notify/src/features/notifies/presentation/notifies_controller.dart';
 import 'package:notify/src/features/notifies/presentation/widgets/notify_card.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ArchievedNotifiesScreen extends ConsumerWidget {
   const ArchievedNotifiesScreen({super.key});
@@ -13,7 +14,7 @@ class ArchievedNotifiesScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Archive'),
+        title: Text(AppLocalizations.of(context)!.archive),
         leading: GestureDetector(
           onTap: () {
             context.go('/');
@@ -28,9 +29,9 @@ class ArchievedNotifiesScreen extends ConsumerWidget {
         ),
       ),
       body: state.isEmpty
-          ? const Center(
+          ? Center(
               heightFactor: 4,
-              child: Text('No archieved notifies'),
+              child: Text(AppLocalizations.of(context)!.noArchivedNotifies),
             )
           : ListView.builder(
               itemCount: state.length + 1,

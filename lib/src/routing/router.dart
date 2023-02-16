@@ -10,7 +10,12 @@ final router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const ActiveNotifiesScreen(),
+      builder: (context, state) {
+        return Localizations.override(
+            locale: Locale('de'),
+            context: context,
+            child: const ActiveNotifiesScreen());
+      },
     ),
     GoRoute(
       path: '/settings',

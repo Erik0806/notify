@@ -10,132 +10,139 @@ import 'package:notify/src/features/notifies/presentation/notifies_controller.da
 import 'package:notify/src/features/notifies/presentation/widgets/notify_card.dart';
 import 'package:notify/src/features/notifies/presentation/widgets/stats_widget.dart';
 import 'package:notify/src/features/settings/data/settings_repository.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ActiveNotifiesScreen extends ConsumerWidget {
   const ActiveNotifiesScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var state = ref.watch(activeNotifiesProvider);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Center(child: Text('Active Notifies')),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          int id = ref.read(notifyRepositoryProvider.notifier).addNotify();
-          ref.read(notifyExpandedProvider.notifier).state = id;
-        },
-        child: const Icon(Icons.add),
-      ),
-      drawer: Drawer(
-        child: Column(
-          children: [
-            const NotifyLogo(),
-            ListTile(
-              leading: const Icon(
-                Icons.settings,
-                size: 32,
-              ),
-              title: const Text('Settings'),
-              onTap: () => context.go('/settings'),
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.archive,
-                size: 32,
-              ),
-              title: const Text('Archive'),
-              onTap: () {
-                var notifies = ref.watch(notifyRepositoryProvider);
-                var deleteNotifiesAfter = ref
-                    .read(settingsRepositoryProvider)
-                    .deleteArchivedNotesAfter;
-                if (deleteNotifiesAfter > const Duration(seconds: 0)) {
-                  for (var notify in notifies.where(
-                    (element) => element.fireTime.isBefore(
-                      DateTime.now().subtract(deleteNotifiesAfter),
-                    ),
-                  )) {
-                    ref
-                        .read(notifyRepositoryProvider.notifier)
-                        .removeNotify(notify.id);
-                  }
-                }
-                context.go('/archieve');
-              },
-            ),
-            const Padding(
-              padding: EdgeInsets.all(8),
-              child: Text(
-                'If the notifications are not working, this could be the cause:',
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  if (Platform.isAndroid || Platform.isIOS) {
-                    AppSettings.openBatteryOptimizationSettings();
-                  }
-                },
-                child: const Text('Battery Optimization Settings'),
-              ),
-            ),
-          ],
+    final state = ref.watch(activeNotifiesProvider);
+    final settings = ref.watch(settingsRepositoryProvider);
+    return Localizations.override(
+      context: context,
+      locale: Locale(settings.localizationCountryCode),
+      child: Scaffold(
+        appBar: AppBar(
+          title:
+              Center(child: Text(AppLocalizations.of(context)!.activeNotifies)),
         ),
-      ),
-      body: state.isEmpty
-          ? Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                heightFactor: 1,
-                child: Column(
-                  children: const [
-                    Text('No active notifies'),
-                    StatsWidget(),
-                  ],
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            int id = ref.read(notifyRepositoryProvider.notifier).addNotify();
+            ref.read(notifyExpandedProvider.notifier).state = id;
+          },
+          child: const Icon(Icons.add),
+        ),
+        drawer: Drawer(
+          child: Column(
+            children: [
+              const NotifyLogo(),
+              ListTile(
+                leading: const Icon(
+                  Icons.settings,
+                  size: 32,
+                ),
+                title: Text(AppLocalizations.of(context)!.settings),
+                onTap: () => context.go('/settings'),
+              ),
+              ListTile(
+                leading: const Icon(
+                  Icons.archive,
+                  size: 32,
+                ),
+                title: Text(AppLocalizations.of(context)!.archive),
+                onTap: () {
+                  var notifies = ref.watch(notifyRepositoryProvider);
+                  var deleteNotifiesAfter = ref
+                      .read(settingsRepositoryProvider)
+                      .deleteArchivedNotesAfter;
+                  if (deleteNotifiesAfter > const Duration(seconds: 0)) {
+                    for (var notify in notifies.where(
+                      (element) => element.fireTime.isBefore(
+                        DateTime.now().subtract(deleteNotifiesAfter),
+                      ),
+                    )) {
+                      ref
+                          .read(notifyRepositoryProvider.notifier)
+                          .removeNotify(notify.id);
+                    }
+                  }
+                  context.go('/archieve');
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Text(
+                  AppLocalizations.of(context)!.batteryOptimText,
+                  textAlign: TextAlign.center,
                 ),
               ),
-            )
-          : ListView.builder(
-              itemCount: state.length + 2,
-              itemBuilder: (context, index) {
-                if (index >= state.length) {
-                  if (index == state.length) {
-                    return Column(
-                      children: const [
-                        SizedBox(
-                          height: 30,
-                        ),
-                        StatsWidget(),
-                      ],
-                    );
-                  } else {
-                    return const SizedBox(
-                      //So the floatingactionbutton does not overshadow anything
-                      height: 80,
-                    );
-                  }
-                }
-                return ProviderScope(
-                  overrides: [
-                    currentNotifyProvider.overrideWith(
-                      (ref) {
-                        return state[index];
-                      },
-                    ),
-                    wasExpandedProvider.overrideWith(
-                      (ref) => false,
-                    ),
-                  ],
-                  child: NotifyCard(
-                    notify: ref.read(activeNotifiesProvider)[index],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (Platform.isAndroid || Platform.isIOS) {
+                      AppSettings.openBatteryOptimizationSettings();
+                    }
+                  },
+                  child: Text(AppLocalizations.of(context)!.batteryOptim),
+                ),
+              ),
+            ],
+          ),
+        ),
+        body: state.isEmpty
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  heightFactor: 1,
+                  child: Column(
+                    children: [
+                      Text(AppLocalizations.of(context)!.noActiveNotifies),
+                      const StatsWidget(),
+                    ],
                   ),
-                );
-              },
-            ),
+                ),
+              )
+            : ListView.builder(
+                itemCount: state.length + 2,
+                itemBuilder: (context, index) {
+                  if (index >= state.length) {
+                    if (index == state.length) {
+                      return Column(
+                        children: const [
+                          SizedBox(
+                            height: 30,
+                          ),
+                          StatsWidget(),
+                        ],
+                      );
+                    } else {
+                      return const SizedBox(
+                        //So the floatingactionbutton does not overshadow anything
+                        height: 80,
+                      );
+                    }
+                  }
+                  return ProviderScope(
+                    overrides: [
+                      currentNotifyProvider.overrideWith(
+                        (ref) {
+                          return state[index];
+                        },
+                      ),
+                      wasExpandedProvider.overrideWith(
+                        (ref) => false,
+                      ),
+                    ],
+                    child: NotifyCard(
+                      notify: ref.read(activeNotifiesProvider)[index],
+                    ),
+                  );
+                },
+              ),
+      ),
     );
   }
 }

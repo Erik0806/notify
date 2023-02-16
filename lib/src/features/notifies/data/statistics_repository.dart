@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notify/src/features/notifies/domain/stats.dart';
 import 'package:notify/src/utils/shared_preferences_provider.dart';
-import 'package:notify/src/utils/shared_prefs_keys.dart';
+import 'package:notify/src/constants/shared_prefs_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StatsRepository extends StateNotifier<Stats> {

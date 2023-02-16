@@ -6,6 +6,7 @@ import 'package:notify/src/features/settings/data/settings_repository.dart';
 import 'package:notify/src/features/settings/presentation/settings_screen_controller.dart';
 import 'package:notify/src/utils/logger.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -16,7 +17,7 @@ class SettingsScreen extends ConsumerWidget {
     final state = ref.watch(settingsRepositoryProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: Text(AppLocalizations.of(context)!.settings),
         leading: GestureDetector(
           onTap: () {
             context.go('/');
@@ -33,7 +34,7 @@ class SettingsScreen extends ConsumerWidget {
       body: ListView(
         children: [
           ListTile(
-            title: const Text('New Notify after opening app?'),
+            title: Text(AppLocalizations.of(context)!.newNotifyAfterOpeningApp),
             trailing: Checkbox(
               value: state.newNotifyAfterOpeningApp,
               onChanged: (value) {
@@ -44,7 +45,8 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
           ListTile(
-            title: const Text('Delete archived notes after:'),
+            title:
+                Text(AppLocalizations.of(context)!.deleteArchivedNotifiesAfter),
             trailing: ToggleSwitch(
               animate:
                   true, // with just animate set to true, default curve = Curves.easeIn
@@ -56,7 +58,7 @@ class SettingsScreen extends ConsumerWidget {
                       ? 1
                       : 2,
               totalSwitches: 3,
-              labels: const ['Never', '10h', '10d'],
+              labels: [AppLocalizations.of(context)!.never, '10h', '10d'],
               onToggle: (index) {
                 ref
                     .read(settingsRepositoryProvider.notifier)
@@ -73,7 +75,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
           ListTile(
-            title: const Text('ThemeMode:'),
+            title: Text(AppLocalizations.of(context)!.themeMode),
             trailing: ToggleSwitch(
               animate:
                   true, // with just animate set to true, default curve = Curves.easeIn
@@ -85,7 +87,11 @@ class SettingsScreen extends ConsumerWidget {
                       ? 1
                       : 2,
               totalSwitches: 3,
-              labels: const ['System', 'Light', 'Dark'],
+              labels: [
+                AppLocalizations.of(context)!.system,
+                AppLocalizations.of(context)!.light,
+                AppLocalizations.of(context)!.dark,
+              ],
               onToggle: (index) {
                 ThemeMode themeMode = ThemeMode.system;
                 switch (index) {
@@ -106,7 +112,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
           ListTile(
-            title: const Text('Language:'),
+            title: Text(AppLocalizations.of(context)!.language),
             trailing: ToggleSwitch(
               animate:
                   true, // with just animate set to true, default curve = Curves.easeIn
@@ -115,9 +121,9 @@ class SettingsScreen extends ConsumerWidget {
               initialLabelIndex: state.localizationCountryCode == 'de' ? 0 : 1,
               totalSwitches: 2,
               minWidth: 110,
-              labels: const [
-                'Deutsch',
-                'English',
+              labels: [
+                AppLocalizations.of(context)!.german,
+                AppLocalizations.of(context)!.english,
               ],
               onToggle: (index) {
                 String countryCode = 'de';
@@ -138,8 +144,10 @@ class SettingsScreen extends ConsumerWidget {
               //TODO add sound
               ref.read(soundRepositoryProvider).playSound('For Frodo');
             },
-            child: const Center(
-              child: Text('For Frodo'),
+            child: Center(
+              child: Text(
+                AppLocalizations.of(context)!.forFrodo,
+              ),
             ),
           ),
         ],

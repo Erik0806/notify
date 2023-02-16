@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notify/src/features/notifies/data/notify_repository.dart';
 import 'package:notify/src/features/notifies/domain/notify.dart';
 import 'package:notify/src/features/notifies/presentation/notifies_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotifyCard extends HookConsumerWidget {
   const NotifyCard({
@@ -354,8 +355,8 @@ class ExpandedNotifyCard extends HookConsumerWidget {
           child: TextField(
             maxLines: null,
             autofocus: notify.firstTimeOpen,
-            decoration: const InputDecoration(
-              hintText: 'Description',
+            decoration: InputDecoration(
+              hintText: AppLocalizations.of(context)!.description,
               filled: false,
               border: InputBorder.none,
               focusedBorder: InputBorder.none,
@@ -372,7 +373,7 @@ class ExpandedNotifyCard extends HookConsumerWidget {
                 onDeleteTap!(context);
               },
               child: Text(
-                'Delete',
+                AppLocalizations.of(context)!.delete,
                 style: Theme.of(context)
                     .textTheme
                     .bodyLarge!
@@ -384,7 +385,7 @@ class ExpandedNotifyCard extends HookConsumerWidget {
                 onDoneTap!(notify.fireTime, textController.text);
               },
               child: Text(
-                'Done',
+                AppLocalizations.of(context)!.done,
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
             ),

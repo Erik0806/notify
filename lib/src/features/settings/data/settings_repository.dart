@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notify/src/features/settings/domain/settings.dart';
-import 'package:notify/src/utils/shared_prefs_keys.dart';
+import 'package:notify/src/constants/shared_prefs_keys.dart';
 import 'package:notify/src/utils/logger.dart';
 import 'package:notify/src/utils/shared_preferences_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
