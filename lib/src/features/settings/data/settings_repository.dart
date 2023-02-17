@@ -15,6 +15,7 @@ class SettingsRepository extends StateNotifier<Settings> {
 
   saveLocalizationCountryCode(String value) {
     saveSpecificSetting(localizationCountryCodeKey, value);
+    print(value);
     state.localizationCountryCode = value;
     state = Settings(
       newNotifyAfterOpeningApp: state.newNotifyAfterOpeningApp,

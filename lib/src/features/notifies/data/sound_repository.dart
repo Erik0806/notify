@@ -1,19 +1,30 @@
-// import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SoundRepository {
-  // AudioPlayer audioPlayer = AudioPlayer();
+  final AudioPlayer audioPlayer = AudioPlayer();
 
   playSound(String notifyTitle) {
     final newString = notifyTitle.toLowerCase().split(' ');
-    //TODO refactor to use split correctly
-    if (notifyTitle == 'For Frodo') {
-      //play audio from scene in front of black gate TODO
-    } else if (_kaenguru.contains(newString)) {
-      //play scheißverein TODO
-    } else if (_hdr.contains(newString)) {
-      //play Rohirrim theme TODO
+    bool played = false;
+    for (var word in newString) {
+      word = word.toLowerCase();
+      if (!played) {
+        if (notifyTitle == 'For Frodo') {
+          played = true;
+          audioPlayer.play(AssetSource('for_frodo.mp3'));
+        } else if (_kaenguru.contains(word)) {
+          audioPlayer.play(AssetSource('scheissverein.mp3'));
+          played = true;
+        } else if (_hdr.contains(word)) {
+          audioPlayer.play(AssetSource('rohirrim_charge.mp3'));
+          played = true;
+          //play Rohirrim theme TODO
+        }
+      }
     }
+    //TODO refactor to use split correctly
+
     //TODO make to work
     // audioPlayer.play(
     //   AssetSource('scheissverein.mp3'),
