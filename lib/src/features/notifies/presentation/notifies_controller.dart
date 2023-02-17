@@ -3,16 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:notify/src/features/notifies/data/notify_repository.dart';
 import 'package:notify/src/features/notifies/domain/notify.dart';
 
-class NotifyController extends StateNotifier<NotifyRepository> {
-  NotifyController(this.notifyRepository, this.ref) : super(notifyRepository);
-
-  Ref ref;
-
-  NotifyRepository notifyRepository;
-  //change to separate Notifier
-  late List<Notify> activeNotifies;
-  late List<Notify> archivedNotifies;
-
+class NotifyController {
   static String getNotifyTimeText(DateTime fireTime) {
     try {
       int hour = fireTime.hour;
