@@ -1,6 +1,4 @@
 import 'dart:math';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notify/src/features/notifies/data/notification_repository.dart';
@@ -52,6 +50,7 @@ class NotifyRepository extends StateNotifier<List<Notify>> {
 
     ref.read(notificationRepositoryProvider).createNotification(notify);
     ref.read(statsRepositoryProvider.notifier).addNewNotifyToStats();
+    ref.read(loggerProvider).i('created new notify');
 
     saveNotifies();
     return notify.id;
@@ -67,6 +66,7 @@ class NotifyRepository extends StateNotifier<List<Notify>> {
 
     ref.read(notificationRepositoryProvider).deleteNotification(id);
     ref.read(statsRepositoryProvider.notifier).addDeletedNotifyToStats();
+    ref.read(loggerProvider).i('removed notify');
 
     saveNotifies();
   }
@@ -105,9 +105,9 @@ class NotifyRepository extends StateNotifier<List<Notify>> {
     state = state;
 
     ref.read(notificationRepositoryProvider).changeNotification(newNotify);
-    debugPrint('hi');
     ref.read(soundRepositoryProvider).playSound(newText);
     ref.read(statsRepositoryProvider.notifier).addChangedNotifyToStats();
+    ref.read(loggerProvider).i('changed notify');
 
     saveNotifies();
   }
@@ -121,6 +121,7 @@ class NotifyRepository extends StateNotifier<List<Notify>> {
         .read(sharedPreferencesProvider)
         .setString(notifiesKey, Notify.encode(state));
     state = state;
+    ref.read(loggerProvider).i('saved notifues');
   }
 }
 

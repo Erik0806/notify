@@ -13,7 +13,7 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.read(loggerProvider).i('Started building settingsScreen');
+    ref.read(loggerProvider).i('Built settingsScreen');
     final state = ref.watch(settingsRepositoryProvider);
     return Scaffold(
       appBar: AppBar(

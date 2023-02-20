@@ -1,7 +1,6 @@
 import 'dart:io';
-
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:notify/src/features/notifies/domain/notify.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -15,6 +14,7 @@ class NotificationRepository {
     if (Platform.isAndroid) {
       if (notify.fireTime
           .isBefore(DateTime.now().add(const Duration(seconds: 10)))) {
+        Logger().e('Notification firetime is in the past');
         return;
       }
       await flutterLocalNotificationsPlugin.zonedSchedule(
@@ -34,14 +34,18 @@ class NotificationRepository {
           androidAllowWhileIdle: true,
           uiLocalNotificationDateInterpretation:
               UILocalNotificationDateInterpretation.absoluteTime);
-      debugPrint('CreatedNotification');
+      Logger().i('created notification');
+    } else {
+      Logger().e('Invalid platform to create notification');
     }
   }
 
   deleteNotification(int id) {
     if (Platform.isAndroid) {
       flutterLocalNotificationsPlugin.cancel(id);
-      debugPrint('DeletedNotification');
+      Logger().i('deleted notification');
+    } else {
+      Logger().e('Invalid platform to create notification');
     }
   }
 
@@ -49,7 +53,9 @@ class NotificationRepository {
     if (Platform.isAndroid) {
       deleteNotification(notify.id);
       createNotification(notify);
-      debugPrint('ChangedNotification');
+      Logger().i('changed notification');
+    } else {
+      Logger().e('Invalid platform to create notification');
     }
   }
 }

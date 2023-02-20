@@ -83,8 +83,7 @@ flutter:
     - assets/icon.png
     - assets/scheissverein.mp3
     - assets/for_frodo.mp3
-    - assets/rohirrim_charge.mp3
-  #   - images/a_dot_ham.jpeg
+    - assets/rohirrim_charge_1.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

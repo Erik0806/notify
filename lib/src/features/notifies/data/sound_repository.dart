@@ -1,8 +1,10 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 
 class SoundRepository {
   final AudioPlayer audioPlayer = AudioPlayer();
+  //TODO debug playSound method
 
   playSound(String notifyTitle) {
     final newString = notifyTitle.toLowerCase().split(' ');
@@ -17,10 +19,10 @@ class SoundRepository {
           audioPlayer.play(AssetSource('scheissverein.mp3'));
           played = true;
         } else if (_hdr.contains(word)) {
-          audioPlayer.play(AssetSource('rohirrim_charge.mp3'));
+          audioPlayer.play(AssetSource('rohirrim_charge_1.mp3'));
           played = true;
-          //TODO Play Sam there is something good in this world
         }
+        Logger().i('Played sound');
       }
     }
   }

@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notify/src/features/notifies/data/notification_repository.dart';
 import 'package:notify/src/constants/shared_prefs_keys.dart';
 import 'package:notify/src/routing/router.dart';
+import 'package:notify/src/utils/logger.dart';
 import 'package:notify/src/utils/shared_preferences_provider.dart';
 import 'package:notify/src/utils/theme_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -56,22 +57,28 @@ class NotifyMain extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ThemeMode themeMode = ref.watch(themeModeProvider);
-    return MaterialApp.router(
-      routerConfig: router,
-      title: 'Notify',
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: themeMode,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('de'),
-        Locale('en'),
-      ],
-    );
+    ref.read(loggerProvider).i('Started app');
+    try {
+      return MaterialApp.router(
+        routerConfig: router,
+        title: 'Notify',
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        themeMode: themeMode,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('de'),
+          Locale('en'),
+        ],
+      );
+    } on Exception catch (e) {
+      ref.read(loggerProvider).e(e);
+      return ErrorWidget(e);
+    }
   }
 }

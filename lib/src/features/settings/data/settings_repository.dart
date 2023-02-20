@@ -15,7 +15,6 @@ class SettingsRepository extends StateNotifier<Settings> {
 
   saveLocalizationCountryCode(String value) {
     saveSpecificSetting(localizationCountryCodeKey, value);
-    print(value);
     state.localizationCountryCode = value;
     state = Settings(
       newNotifyAfterOpeningApp: state.newNotifyAfterOpeningApp,
@@ -29,27 +28,33 @@ class SettingsRepository extends StateNotifier<Settings> {
     saveSpecificSetting(newNotifyAfterOpeningAppKey, value);
     state.newNotifyAfterOpeningApp = value;
     state = Settings(
-        newNotifyAfterOpeningApp: state.newNotifyAfterOpeningApp,
-        deleteArchivedNotesAfter: state.deleteArchivedNotesAfter,
-        themeMode: state.themeMode);
+      newNotifyAfterOpeningApp: state.newNotifyAfterOpeningApp,
+      deleteArchivedNotesAfter: state.deleteArchivedNotesAfter,
+      themeMode: state.themeMode,
+      localizationCountryCode: state.localizationCountryCode,
+    );
   }
 
   saveDeleteArchivedNotesAfter(Duration value) {
     saveSpecificSetting(deleteArchivedNotesAfterKey, value);
     state.deleteArchivedNotesAfter = value;
     state = Settings(
-        newNotifyAfterOpeningApp: state.newNotifyAfterOpeningApp,
-        deleteArchivedNotesAfter: state.deleteArchivedNotesAfter,
-        themeMode: state.themeMode);
+      newNotifyAfterOpeningApp: state.newNotifyAfterOpeningApp,
+      deleteArchivedNotesAfter: state.deleteArchivedNotesAfter,
+      themeMode: state.themeMode,
+      localizationCountryCode: state.localizationCountryCode,
+    );
   }
 
   saveThemeEnum(ThemeMode value) {
     saveSpecificSetting(themeEnumKey, value);
     state.themeMode = value;
     state = Settings(
-        newNotifyAfterOpeningApp: state.newNotifyAfterOpeningApp,
-        deleteArchivedNotesAfter: state.deleteArchivedNotesAfter,
-        themeMode: state.themeMode);
+      newNotifyAfterOpeningApp: state.newNotifyAfterOpeningApp,
+      deleteArchivedNotesAfter: state.deleteArchivedNotesAfter,
+      themeMode: state.themeMode,
+      localizationCountryCode: state.localizationCountryCode,
+    );
   }
 
   saveSpecificSetting(String key, dynamic value) {

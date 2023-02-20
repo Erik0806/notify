@@ -7,6 +7,7 @@ import 'package:notify/src/features/notifies/data/notify_repository.dart';
 import 'package:notify/src/features/notifies/domain/notify.dart';
 import 'package:notify/src/features/notifies/presentation/notifies_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:notify/src/utils/logger.dart';
 
 class NotifyCard extends HookConsumerWidget {
   const NotifyCard({
@@ -20,7 +21,8 @@ class NotifyCard extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final expanded = ref.watch(notifyExpandedProvider) == notify.id;
     final intNotify = ref.watch(currentNotifyProvider);
-    final wasExtended = ref.read(wasExpandedProvider);
+    final wasExpanded = ref.read(wasExpandedProvider);
+    ref.read(loggerProvider).i('Built notifyCard');
 
     return GestureDetector(
       onTap: () {
@@ -29,7 +31,7 @@ class NotifyCard extends HookConsumerWidget {
           ref.read(wasExpandedProvider.notifier).state = false;
         } else {
           ref.read(notifyExpandedProvider.notifier).state = notify.id;
-          if (wasExtended) {
+          if (wasExpanded) {
             ref.read(currentNotifyProvider.notifier).state = notify;
           }
           ref.read(wasExpandedProvider.notifier).state = true;

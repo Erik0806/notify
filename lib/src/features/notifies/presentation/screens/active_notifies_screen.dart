@@ -11,6 +11,7 @@ import 'package:notify/src/features/notifies/presentation/widgets/notify_card.da
 import 'package:notify/src/features/notifies/presentation/widgets/stats_widget.dart';
 import 'package:notify/src/features/settings/data/settings_repository.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:notify/src/utils/logger.dart';
 
 class ActiveNotifiesScreen extends ConsumerWidget {
   const ActiveNotifiesScreen({super.key});
@@ -19,6 +20,7 @@ class ActiveNotifiesScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(activeNotifiesProvider);
     final settings = ref.watch(settingsRepositoryProvider);
+    ref.read(loggerProvider).i('Built activeNotifiesScreen');
     return Localizations.override(
       context: context,
       locale: Locale(settings.localizationCountryCode),

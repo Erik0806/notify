@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notify/src/features/notifies/domain/stats.dart';
+import 'package:notify/src/utils/logger.dart';
 import 'package:notify/src/utils/shared_preferences_provider.dart';
 import 'package:notify/src/constants/shared_prefs_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,6 +24,7 @@ class StatsRepository extends StateNotifier<Stats> {
           state.newNotifies,
         );
     state = state;
+    ref.read(loggerProvider).i('added new notify to stats');
   }
 
   addChangedNotifyToStats() {
@@ -36,6 +38,7 @@ class StatsRepository extends StateNotifier<Stats> {
       changedNotifies: state.changedNotifies,
       deletedNotifies: state.deletedNotifies,
     );
+    ref.read(loggerProvider).i('added changed notify to stats');
   }
 
   addDeletedNotifyToStats() {
@@ -45,6 +48,7 @@ class StatsRepository extends StateNotifier<Stats> {
           state.deletedNotifies,
         );
     state = state;
+    ref.read(loggerProvider).i('added deleted notify to stats');
   }
 }
 

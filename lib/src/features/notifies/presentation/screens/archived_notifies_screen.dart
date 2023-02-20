@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notify/src/features/notifies/presentation/notifies_controller.dart';
 import 'package:notify/src/features/notifies/presentation/widgets/notify_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:notify/src/utils/logger.dart';
 
 class ArchievedNotifiesScreen extends ConsumerWidget {
   const ArchievedNotifiesScreen({super.key});
@@ -11,7 +12,7 @@ class ArchievedNotifiesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var state = ref.watch(archivedNotifiesProvider);
-
+    ref.read(loggerProvider).i('Built archivedNotifiesScreen');
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.archive),
