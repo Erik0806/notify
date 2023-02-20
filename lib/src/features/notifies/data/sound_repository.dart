@@ -19,16 +19,10 @@ class SoundRepository {
         } else if (_hdr.contains(word)) {
           audioPlayer.play(AssetSource('rohirrim_charge.mp3'));
           played = true;
-          //play Rohirrim theme TODO
+          //TODO Play Sam there is something good in this world
         }
       }
     }
-    //TODO refactor to use split correctly
-
-    //TODO make to work
-    // audioPlayer.play(
-    //   AssetSource('scheissverein.mp3'),
-    // );
   }
 }
 
@@ -48,12 +42,14 @@ final _kaenguru = <String>[
 
 final _hdr = <String>[
   'herr der ringe',
-  'Llord of the rings',
+  'lord of the rings',
+  'lotr',
+  'hdr',
   'aragorn',
   'ring',
   'samweis',
   'baumbart',
   'silmarillion',
-  'beren'
-      'luthien',
+  'beren',
+  'luthien',
 ];
