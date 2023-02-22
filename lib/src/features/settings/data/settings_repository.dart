@@ -7,11 +7,12 @@ import 'package:notify/src/utils/shared_preferences_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsRepository extends StateNotifier<Settings> {
-  SettingsRepository(this._prefs, this.settings) : super(settings);
+  SettingsRepository(this._prefs, this.settings, this.ref) : super(settings);
 
   final SharedPreferences _prefs;
 
   Settings settings;
+  Ref ref;
 
   saveLocalizationCountryCode(String value) {
     saveSpecificSetting(localizationCountryCodeKey, value);
@@ -22,6 +23,7 @@ class SettingsRepository extends StateNotifier<Settings> {
       themeMode: state.themeMode,
       localizationCountryCode: state.localizationCountryCode,
     );
+    ref.read(loggerProvider).i('Saved SettingLocalizationCountryCode: $value');
   }
 
   saveNewNotifyAfterOpeningApp(bool value) {
@@ -33,6 +35,9 @@ class SettingsRepository extends StateNotifier<Settings> {
       themeMode: state.themeMode,
       localizationCountryCode: state.localizationCountryCode,
     );
+    ref
+        .read(loggerProvider)
+        .i('Saved Setting NewNotifyAfterOpeningApp: $value');
   }
 
   saveDeleteArchivedNotesAfter(Duration value) {
@@ -44,6 +49,9 @@ class SettingsRepository extends StateNotifier<Settings> {
       themeMode: state.themeMode,
       localizationCountryCode: state.localizationCountryCode,
     );
+    ref
+        .read(loggerProvider)
+        .i('Saved Setting DeleteArchivedNotifiesAfter: $value');
   }
 
   saveThemeEnum(ThemeMode value) {
@@ -55,6 +63,7 @@ class SettingsRepository extends StateNotifier<Settings> {
       themeMode: state.themeMode,
       localizationCountryCode: state.localizationCountryCode,
     );
+    ref.read(loggerProvider).i('Saved Setting ThemeEnum: $value');
   }
 
   saveSpecificSetting(String key, dynamic value) {
@@ -112,9 +121,11 @@ final settingsRepositoryProvider =
     var sharedPreferencesProvide = ref.watch(sharedPreferencesProvider);
     Settings settings =
         SettingsRepository._loadSettings(sharedPreferencesProvide);
+    ref.read(loggerProvider).i('Loaded settings from memory');
     return SettingsRepository(
       sharedPreferencesProvide,
       settings,
+      ref,
     );
   },
 );

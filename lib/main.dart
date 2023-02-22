@@ -42,8 +42,8 @@ void main(List<String> args) async {
       overrides: [
         sharedPreferencesProvider.overrideWithValue(preferences),
         themeModeProvider.overrideWith((ref) => themeMode),
-        notificationRepositoryProvider.overrideWithValue(
-          NotificationRepository(flutterLocalNotificationsPlugin),
+        notificationRepositoryProvider.overrideWith(
+          (ref) => NotificationRepository(flutterLocalNotificationsPlugin, ref),
         ),
       ],
       child: const NotifyMain(),

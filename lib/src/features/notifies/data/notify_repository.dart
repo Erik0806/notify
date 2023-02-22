@@ -62,7 +62,6 @@ class NotifyRepository extends StateNotifier<List<Notify>> {
         if (notify.id != id) notify,
     ];
     state = state;
-    ref.read(loggerProvider).i('deleted');
 
     ref.read(notificationRepositoryProvider).deleteNotification(id);
     ref.read(statsRepositoryProvider.notifier).addDeletedNotifyToStats();
@@ -121,7 +120,7 @@ class NotifyRepository extends StateNotifier<List<Notify>> {
         .read(sharedPreferencesProvider)
         .setString(notifiesKey, Notify.encode(state));
     state = state;
-    ref.read(loggerProvider).i('saved notifues');
+    ref.read(loggerProvider).i('saved notifies');
   }
 }
 

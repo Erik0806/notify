@@ -5,7 +5,7 @@
     "done": "Done",
     "createdNotifies" : "Created notifies",
     "changedNotifies" : "Changed notifies",
-    "deletedNotifies" : "deleted notifies",
+    "deletedNotifies" : "Deleted notifies",
     "settings" : "Settings",
     "archive" : "Archive",
     "batteryOptimText" : "If the notifications are not working, this could be the cause:",
@@ -22,5 +22,6 @@
     "german" : "Deutsch",
     "english" : "English",
     "noActiveNotifies" : "No active notifies",
-    "noArchivedNotifies" : "No archived notifies"
+    "noArchivedNotifies" : "No archived notifies",
+    "debugScreen" : "Debug Screen"
 }

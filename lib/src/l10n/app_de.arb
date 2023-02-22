@@ -22,5 +22,6 @@
     "german" : "Deutsch",
     "english" : "English",
     "noActiveNotifies" : "Keine aktiven Notifies",
-    "noArchivedNotifies" : "Keine archivierten Notifies"
+    "noArchivedNotifies" : "Keine archivierten Notifies",
+    "debugScreen" : "Debugseite"
 }

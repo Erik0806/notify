@@ -33,62 +33,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.10.0"
-  audioplayers:
-    dependency: "direct main"
-    description:
-      name: audioplayers
-      sha256: "16451eab798b23ad9307aef6f9ca62bb8fb06542af8810eead0d236d3fd40a42"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.1"
-  audioplayers_android:
-    dependency: transitive
-    description:
-      name: audioplayers_android
-      sha256: b2c833e6f718b6b030454e329931229afafe9327fdb002874dd544dc8bf2484d
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
-  audioplayers_darwin:
-    dependency: transitive
-    description:
-      name: audioplayers_darwin
-      sha256: e7a3c8759bf11ecfe4b20df338bf9f3d37c7719a5761c46a3833aba0ceeaacff
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.1"
-  audioplayers_linux:
-    dependency: transitive
-    description:
-      name: audioplayers_linux
-      sha256: e95b65e1f4d4764601dac5e65f8d8186fc29401043ab020f1dacec483d708707
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.4"
-  audioplayers_platform_interface:
-    dependency: transitive
-    description:
-      name: audioplayers_platform_interface
-      sha256: "178581a44cb685fd798d2108111d2e98cca3400e30b9c3a05546f124fb37f600"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.0"
-  audioplayers_web:
-    dependency: transitive
-    description:
-      name: audioplayers_web
-      sha256: "859ba09be2a57e57a787273f18c8cf0d9b61383870c5ee4b5632fe9adbc37edf"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.0"
-  audioplayers_windows:
-    dependency: transitive
-    description:
-      name: audioplayers_windows
-      sha256: "622e01c4c357c2aaf1b956c3a0f89d97c3cb40315c03f16e3b6c2a31ff9c38bc"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.3"
   boolean_selector:
     dependency: transitive
     description:
@@ -325,22 +269,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.0"
-  http:
-    dependency: transitive
-    description:
-      name: http
-      sha256: "6aa2946395183537c8b880962d935877325d6a09a2867c3970c05c0fed6ac482"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.13.5"
-  http_parser:
-    dependency: transitive
-    description:
-      name: http_parser
-      sha256: "2aa08ce0341cc9b354a498388e30986515406668dbcc4f7c950c3e715496693b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.2"
   image:
     dependency: transitive
     description:
@@ -382,13 +310,21 @@ packages:
     source: hosted
     version: "2.0.1"
   logger:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: logger
       sha256: "5076f09225f91dc49289a4ccb92df2eeea9ea01cf7c26d49b3a1f04c6a49eec1"
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  logger_flutter_plus:
+    dependency: "direct main"
+    description:
+      name: logger_flutter_plus
+      sha256: "57a378dea1e0dc8beee4d9d1a2a017e368ab96b4dfbf094eff0d08304a739660"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.5"
   logging:
     dependency: transitive
     description:
@@ -429,30 +365,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.2"
-  path_provider:
-    dependency: transitive
-    description:
-      name: path_provider
-      sha256: dcea5feb97d8abf90cab9e9030b497fb7c3cbf26b7a1fe9e3ef7dcb0a1ddec95
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.12"
-  path_provider_android:
-    dependency: transitive
-    description:
-      name: path_provider_android
-      sha256: a776c088d671b27f6e3aa8881d64b87b3e80201c64e8869b811325de7a76c15e
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.22"
-  path_provider_foundation:
-    dependency: transitive
-    description:
-      name: path_provider_foundation
-      sha256: "62a68e7e1c6c459f9289859e2fae58290c981ce21d1697faf54910fe1faa4c74"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.1"
   path_provider_linux:
     dependency: transitive
     description:
@@ -525,6 +437,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.0"
+  sensors_plus:
+    dependency: transitive
+    description:
+      name: sensors_plus
+      sha256: fe503a91f6551c6ce27ee7684cfbe4c5beced10671fa76f4a3bebfa9e3adab91
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
+  sensors_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: sensors_plus_platform_interface
+      sha256: "95f0cc08791b8bf0c41c5fa99c84be2a7d5bf60a811ddc17e1438b1e68caf0d3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.3"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -666,14 +594,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
-  uuid:
-    dependency: transitive
-    description:
-      name: uuid
-      sha256: "648e103079f7c64a36dc7d39369cabb358d377078a051d6ae2ad3aa539519313"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.7"
   vector_math:
     dependency: transitive
     description:

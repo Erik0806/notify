@@ -1,20 +1,21 @@
 import 'dart:io';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:logger/logger.dart';
 import 'package:notify/src/features/notifies/domain/notify.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:notify/src/utils/logger.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class NotificationRepository {
-  NotificationRepository(this.flutterLocalNotificationsPlugin);
+  NotificationRepository(this.flutterLocalNotificationsPlugin, this.ref);
 
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  Ref ref;
 
   createNotification(Notify notify) async {
     if (Platform.isAndroid) {
       if (notify.fireTime
           .isBefore(DateTime.now().add(const Duration(seconds: 10)))) {
-        Logger().e('Notification firetime is in the past');
+        ref.read(loggerProvider).e('Notification firetime is in the past');
         return;
       }
       await flutterLocalNotificationsPlugin.zonedSchedule(
@@ -34,18 +35,18 @@ class NotificationRepository {
           androidAllowWhileIdle: true,
           uiLocalNotificationDateInterpretation:
               UILocalNotificationDateInterpretation.absoluteTime);
-      Logger().i('created notification');
+      ref.read(loggerProvider).i('created notification');
     } else {
-      Logger().e('Invalid platform to create notification');
+      ref.read(loggerProvider).e('Invalid platform to create notification');
     }
   }
 
   deleteNotification(int id) {
     if (Platform.isAndroid) {
       flutterLocalNotificationsPlugin.cancel(id);
-      Logger().i('deleted notification');
+      ref.read(loggerProvider).i('deleted notification');
     } else {
-      Logger().e('Invalid platform to create notification');
+      ref.read(loggerProvider).e('Invalid platform to delete notification');
     }
   }
 
@@ -53,9 +54,9 @@ class NotificationRepository {
     if (Platform.isAndroid) {
       deleteNotification(notify.id);
       createNotification(notify);
-      Logger().i('changed notification');
+      ref.read(loggerProvider).i('changed notification');
     } else {
-      Logger().e('Invalid platform to create notification');
+      ref.read(loggerProvider).e('Invalid platform to change notification');
     }
   }
 }

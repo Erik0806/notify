@@ -1,35 +1,44 @@
-import 'package:audioplayers/audioplayers.dart';
+// import 'package:audioplayers/audioplayers.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:logger/logger.dart';
+import 'package:notify/src/utils/logger.dart';
 
 class SoundRepository {
-  final AudioPlayer audioPlayer = AudioPlayer();
-  //TODO debug playSound method
+  SoundRepository(this.ref);
+
+  // final AudioPlayer audioPlayer = AudioPlayer();
+
+  Ref ref;
 
   playSound(String notifyTitle) {
-    final newString = notifyTitle.toLowerCase().split(' ');
     bool played = false;
-    for (var word in newString) {
-      word = word.toLowerCase();
-      if (!played) {
-        if (notifyTitle == 'For Frodo') {
-          played = true;
-          audioPlayer.play(AssetSource('for_frodo.mp3'));
-        } else if (_kaenguru.contains(word)) {
-          audioPlayer.play(AssetSource('scheissverein.mp3'));
-          played = true;
-        } else if (_hdr.contains(word)) {
-          audioPlayer.play(AssetSource('rohirrim_charge_1.mp3'));
-          played = true;
-        }
-        Logger().i('Played sound');
+    notifyTitle = notifyTitle.toLowerCase();
+
+    if (notifyTitle == 'For Frodo') {
+      played = true;
+      // audioPlayer.play(AssetSource('for_frodo.mp3'));
+      ref.read(loggerProvider).i('Played sound \'for Frodo\'');
+    }
+
+    for (var kenGuru in _kaenguru) {
+      if (notifyTitle.contains(kenGuru) && !played) {
+        played = true;
+        // audioPlayer.play(AssetSource('scheissverein.mp3'));
+        ref.read(loggerProvider).i('Played sound \'Scheißverein\'');
+      }
+    }
+
+    for (var hobbit in _hdr) {
+      if (notifyTitle.contains(hobbit) && !played) {
+        played = true;
+        // audioPlayer.play(AssetSource('rohirrim_charge_1.mp3'));
+        ref.read(loggerProvider).i('Played sound \'rohirrim charge\'');
       }
     }
   }
 }
 
 final soundRepositoryProvider = Provider<SoundRepository>((ref) {
-  return SoundRepository();
+  return SoundRepository(ref);
 });
 
 final _kaenguru = <String>[
