@@ -21,7 +21,7 @@ class SettingsScreen extends ConsumerWidget {
         title: Text(AppLocalizations.of(context)!.settings),
         leading: GestureDetector(
           onTap: () {
-            context.go('/');
+            context.pop();
           },
           child: const Padding(
             padding: EdgeInsets.all(12.0),

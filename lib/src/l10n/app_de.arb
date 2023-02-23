@@ -8,7 +8,7 @@
     "deletedNotifies" : "Gelöschte Notifies",
     "settings" : "Einstellungen",
     "archive" : "Archiv",
-    "batteryOptimText" : "Wenn die Benachrichtigungen nicht gesendet werden, könnte diese Einstellung ein Problem sein",
+    "batteryOptimText" : "Wenn die Benachrichtigungen nicht gesendet werden, könnte diese Einstellung ein Problem sein:",
     "batteryOptim" : "Batterieverbesserungseinstellungen",
     "newNotifyAfterOpeningApp" : "Erstelle neues Notify nach Öffnen der App?",
     "deleteArchivedNotifiesAfter" : "Lösche archivierte Notifies nach:",

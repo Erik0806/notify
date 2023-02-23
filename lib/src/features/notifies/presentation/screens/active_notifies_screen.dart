@@ -46,7 +46,10 @@ class ActiveNotifiesScreen extends ConsumerWidget {
                   size: 32,
                 ),
                 title: Text(AppLocalizations.of(context)!.settings),
-                onTap: () => context.go('/settings'),
+                onTap: () {
+                  context.pop();
+                  context.push('/settings');
+                },
               ),
               ListTile(
                 leading: const Icon(
@@ -55,22 +58,8 @@ class ActiveNotifiesScreen extends ConsumerWidget {
                 ),
                 title: Text(AppLocalizations.of(context)!.archive),
                 onTap: () {
-                  var notifies = ref.watch(notifyRepositoryProvider);
-                  var deleteNotifiesAfter = ref
-                      .read(settingsRepositoryProvider)
-                      .deleteArchivedNotesAfter;
-                  if (deleteNotifiesAfter > const Duration(seconds: 0)) {
-                    for (var notify in notifies.where(
-                      (element) => element.fireTime.isBefore(
-                        DateTime.now().subtract(deleteNotifiesAfter),
-                      ),
-                    )) {
-                      ref
-                          .read(notifyRepositoryProvider.notifier)
-                          .removeNotify(notify.id);
-                    }
-                  }
-                  context.go('/archieve');
+                  context.pop();
+                  context.push('/archieve');
                 },
               ),
               Padding(
