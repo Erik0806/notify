@@ -1,0 +1,9 @@
+name: Build release files
+on: [push]
+jobs:
+  my-job:
+    name: Build apk
+    runs-on: ubuntu-latest
+    steps:
+      - name: Flutter Runner
+        uses: jddeep/Flutter-Runner@1.2.0
