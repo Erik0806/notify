@@ -47,7 +47,7 @@ dependencies:
   go_router: ^6.0.4
   hooks_riverpod: ^2.2.0
   flutter_hooks: ^0.18.5+1
-  flutter_animate: ^4.0.0
+  flutter_animate: ^4.1.0
   app_settings: ^4.2.0
   flutter_slidable: ^2.0.0
   timezone: ^0.9.1
