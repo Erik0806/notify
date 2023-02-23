@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger_flutter_plus/logger_flutter_plus.dart';
 import 'package:notify/src/features/notifies/data/sound_repository.dart';
+import 'package:notify/src/features/notifies/presentation/widgets/stats_widget.dart';
 import 'package:notify/src/features/settings/data/settings_repository.dart';
 import 'package:notify/src/features/settings/presentation/settings_screen_controller.dart';
 import 'package:notify/src/utils/logger.dart';
@@ -172,18 +173,22 @@ class SettingsScreen extends ConsumerWidget {
                 const SizedBox(
                   height: 50,
                 ),
-                GestureDetector(
-                  onTap: () {
-                    ref.read(soundRepositoryProvider).playSound('For Frodo');
-                  },
-                  child: Center(
-                    child: Text(
-                      AppLocalizations.of(context)!.forFrodo,
-                    ),
-                  ),
-                ),
+                const StatsWidget(),
               ],
             ),
+          ),
+          GestureDetector(
+            onTap: () {
+              ref.read(soundRepositoryProvider).playSound('For Frodo');
+            },
+            child: Center(
+              child: Text(
+                AppLocalizations.of(context)!.forFrodo,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 30,
           ),
           const Text('Copyright: Erik Dierkes - 02.2023'),
         ],

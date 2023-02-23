@@ -91,30 +91,18 @@ class ActiveNotifiesScreen extends ConsumerWidget {
                   child: Column(
                     children: [
                       Text(AppLocalizations.of(context)!.noActiveNotifies),
-                      const StatsWidget(),
                     ],
                   ),
                 ),
               )
             : ListView.builder(
-                itemCount: state.length + 2,
+                itemCount: state.length + 1,
                 itemBuilder: (context, index) {
                   if (index >= state.length) {
-                    if (index == state.length) {
-                      return Column(
-                        children: const [
-                          SizedBox(
-                            height: 30,
-                          ),
-                          StatsWidget(),
-                        ],
-                      );
-                    } else {
-                      return const SizedBox(
-                        //So the floatingactionbutton does not overshadow anything
-                        height: 80,
-                      );
-                    }
+                    return const SizedBox(
+                      //So the floatingactionbutton does not overshadow anything
+                      height: 80,
+                    );
                   }
                   return ProviderScope(
                     overrides: [

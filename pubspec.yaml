@@ -52,7 +52,7 @@ dependencies:
   flutter_slidable: ^2.0.0
   timezone: ^0.9.1
   logger_flutter_plus: ^1.0.5
-  # audioplayers: ^3.0.1
+  audioplayers: ^3.0.1
 
 dev_dependencies:
   flutter_test:
