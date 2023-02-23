@@ -239,13 +239,14 @@ class CollapsedNotifyCard extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(width: 50),
+        const SizedBox(width: 40),
         Expanded(
           child: Text(
             notify.text,
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.start,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
       ],
