@@ -13,7 +13,7 @@ class SoundRepository {
     bool played = false;
     notifyTitle = notifyTitle.toLowerCase();
 
-    if (notifyTitle == 'For Frodo') {
+    if (notifyTitle == 'for frodo') {
       played = true;
       audioPlayer.play(AssetSource('for_frodo.mp3'));
       ref.read(loggerProvider).i('Played sound \'for Frodo\'');

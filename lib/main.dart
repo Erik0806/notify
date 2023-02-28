@@ -14,6 +14,8 @@ import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 void main(List<String> args) async {
+  // runApp(const LoadingScreen()); TODO
+
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences preferences = await SharedPreferences.getInstance();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -60,6 +62,7 @@ class NotifyMain extends ConsumerWidget {
     ref.read(loggerProvider).i('Started app');
     try {
       return MaterialApp.router(
+        // showSemanticsDebugger: true,
         routerConfig: router,
         title: 'Notify',
         theme: lightTheme,

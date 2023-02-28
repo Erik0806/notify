@@ -158,7 +158,6 @@ class SettingsScreen extends ConsumerWidget {
                               child: LogConsoleWidget(
                                 logConsoleManager:
                                     ref.read(logConsoleManagerProvider),
-                                showCloseButton: true,
                                 theme:
                                     LogConsoleTheme.byTheme(Theme.of(context)),
                               ),

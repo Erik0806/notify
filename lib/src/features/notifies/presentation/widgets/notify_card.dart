@@ -260,14 +260,14 @@ class ExpandedNotifyCard extends HookConsumerWidget {
     required this.notify,
     required this.timeText,
     required this.dateText,
-    this.onDoneTap,
-    this.onDeleteTap,
+    required this.onDoneTap,
+    required this.onDeleteTap,
   });
   final Notify notify;
   final String timeText;
   final String dateText;
-  final Function(DateTime newFireTime, String newText)? onDoneTap;
-  final Function(BuildContext context)? onDeleteTap;
+  final Function(DateTime newFireTime, String newText) onDoneTap;
+  final Function(BuildContext context) onDeleteTap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -373,7 +373,7 @@ class ExpandedNotifyCard extends HookConsumerWidget {
           children: [
             TextButton(
               onPressed: () {
-                onDeleteTap!(context);
+                onDeleteTap(context);
               },
               child: Text(
                 AppLocalizations.of(context)!.delete,
@@ -385,7 +385,7 @@ class ExpandedNotifyCard extends HookConsumerWidget {
             ),
             TextButton(
               onPressed: () {
-                onDoneTap!(notify.fireTime, textController.text);
+                onDoneTap(notify.fireTime, textController.text);
               },
               child: Text(
                 AppLocalizations.of(context)!.done,

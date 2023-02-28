@@ -8,7 +8,6 @@ import 'package:notify/src/common_widgets/notify_logo.dart';
 import 'package:notify/src/features/notifies/data/notify_repository.dart';
 import 'package:notify/src/features/notifies/presentation/notifies_controller.dart';
 import 'package:notify/src/features/notifies/presentation/widgets/notify_card.dart';
-import 'package:notify/src/features/notifies/presentation/widgets/stats_widget.dart';
 import 'package:notify/src/features/settings/data/settings_repository.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notify/src/utils/logger.dart';

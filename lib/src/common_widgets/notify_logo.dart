@@ -14,15 +14,19 @@ class NotifyLogo extends StatelessWidget {
           ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(40)),
             child: Container(
-              height: 250,
-              width: 250,
+              height: 120,
+              width: 120,
               color:
                   Theme.of(context).colorScheme.brightness == Brightness.light
                       ? Theme.of(context).colorScheme.background.lighten(10)
                       : Theme.of(context).colorScheme.onBackground,
             ),
           ),
-          Image.asset('assets/icon.png'),
+          Image.asset(
+            'assets/icon.png',
+            cacheHeight: 100,
+            cacheWidth: 100,
+          ),
         ],
       ),
     );
