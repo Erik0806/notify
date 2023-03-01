@@ -37,50 +37,52 @@ class ActiveNotifiesScreen extends ConsumerWidget {
           child: const Icon(Icons.add),
         ),
         drawer: Drawer(
-          child: Column(
-            children: [
-              const NotifyLogo(),
-              ListTile(
-                leading: const Icon(
-                  Icons.settings,
-                  size: 32,
-                ),
-                title: Text(AppLocalizations.of(context)!.settings),
-                onTap: () {
-                  context.pop();
-                  context.push('/settings');
-                },
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.archive,
-                  size: 32,
-                ),
-                title: Text(AppLocalizations.of(context)!.archive),
-                onTap: () {
-                  context.pop();
-                  context.push('/archieve');
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Text(
-                  AppLocalizations.of(context)!.batteryOptimText,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (Platform.isAndroid || Platform.isIOS) {
-                      AppSettings.openBatteryOptimizationSettings();
-                    }
+          child: SafeArea(
+            child: Column(
+              children: [
+                const NotifyLogo(),
+                ListTile(
+                  leading: const Icon(
+                    Icons.settings,
+                    size: 32,
+                  ),
+                  title: Text(AppLocalizations.of(context)!.settings),
+                  onTap: () {
+                    context.pop();
+                    context.push('/settings');
                   },
-                  child: Text(AppLocalizations.of(context)!.batteryOptim),
                 ),
-              ),
-            ],
+                ListTile(
+                  leading: const Icon(
+                    Icons.archive,
+                    size: 32,
+                  ),
+                  title: Text(AppLocalizations.of(context)!.archive),
+                  onTap: () {
+                    context.pop();
+                    context.push('/archieve');
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Text(
+                    AppLocalizations.of(context)!.batteryOptimText,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (Platform.isAndroid || Platform.isIOS) {
+                        AppSettings.openBatteryOptimizationSettings();
+                      }
+                    },
+                    child: Text(AppLocalizations.of(context)!.batteryOptim),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         body: state.isEmpty

@@ -126,16 +126,32 @@ class NotifyCard extends HookConsumerWidget {
           ],
         ),
         endActionPane: ActionPane(
-          motion: const ScrollMotion(),
-          extentRatio: 0.0000001,
-          dismissible: DismissiblePane(
-            onDismissed: () {
-              ref
-                  .read(notifyRepositoryProvider.notifier)
-                  .deleteNotify(intNotify.id);
-            },
-          ),
-          children: const [],
+          motion: const BehindMotion(),
+          extentRatio: 0.18,
+          children: [
+            GestureDetector(
+              onTap: () {
+                ref
+                    .read(notifyRepositoryProvider.notifier)
+                    .deleteNotify(intNotify.id);
+              },
+              child: Container(
+                margin: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  border: Border.all(
+                    width: 1.2,
+                    color: Theme.of(context).colorScheme.error,
+                  ),
+                ),
+                child: Icon(
+                  Icons.delete,
+                  color: Theme.of(context).colorScheme.error,
+                ),
+              ),
+            ),
+          ],
         ),
         key: UniqueKey(),
         child: Container(
