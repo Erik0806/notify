@@ -12,29 +12,41 @@ import 'package:notify/src/utils/logger.dart';
 class NotifyCard extends HookConsumerWidget {
   const NotifyCard({
     super.key,
-    required this.notify,
+    required this.stateNotifierProvider,
   });
 
-  final Notify notify;
+  final StateNotifierProvider stateNotifierProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final expanded = ref.watch(notifyExpandedProvider) == notify.id;
-    final intNotify = ref.watch(currentNotifyProvider);
-    final wasExpanded = ref.read(wasExpandedProvider);
+    int index = ref.read(currentNotifyIndexProvider);
+
+    final Notify? intNotify = ref.watch(
+      stateNotifierProvider.select(
+        (value) {
+          if (value.length <= index) {
+            return null;
+          } else {
+            return value[index];
+          }
+        },
+      ),
+    );
+    if (intNotify == null) {
+      return const SizedBox(
+        height: 0,
+      );
+    }
+    final expanded = ref
+        .watch(notifyExpandedProvider.select((value) => value == intNotify.id));
     ref.read(loggerProvider).i('Built notifyCard');
 
     return GestureDetector(
       onTap: () {
         if (expanded) {
           ref.read(notifyExpandedProvider.notifier).state = 0;
-          ref.read(wasExpandedProvider.notifier).state = false;
         } else {
-          ref.read(notifyExpandedProvider.notifier).state = notify.id;
-          if (wasExpanded) {
-            ref.read(currentNotifyProvider.notifier).state = notify;
-          }
-          ref.read(wasExpandedProvider.notifier).state = true;
+          ref.read(notifyExpandedProvider.notifier).state = intNotify.id;
         }
       },
       child: Slidable(
@@ -49,16 +61,11 @@ class NotifyCard extends HookConsumerWidget {
             GestureDetector(
               onTap: () {
                 ref.read(notifyRepositoryProvider.notifier).changeNotify(
-                      notify.id,
-                      notify.text,
-                      notify.fireTime.subtract(1.hours),
+                      intNotify.id,
+                      intNotify.text,
+                      intNotify.fireTime.subtract(1.hours),
                       true,
                     );
-                ref.read(currentNotifyProvider.notifier).state = Notify(
-                  fireTime: notify.fireTime.subtract(1.hours),
-                  text: notify.text,
-                  id: notify.id,
-                );
               },
               child: Container(
                   margin: const EdgeInsets.all(8),
@@ -75,16 +82,11 @@ class NotifyCard extends HookConsumerWidget {
             GestureDetector(
               onTap: () {
                 ref.read(notifyRepositoryProvider.notifier).changeNotify(
-                      notify.id,
-                      notify.text,
-                      notify.fireTime.add(1.hours),
+                      intNotify.id,
+                      intNotify.text,
+                      intNotify.fireTime.add(1.hours),
                       true,
                     );
-                ref.read(currentNotifyProvider.notifier).state = Notify(
-                  fireTime: notify.fireTime.add(1.hours),
-                  text: notify.text,
-                  id: notify.id,
-                );
               },
               child: Container(
                 margin: const EdgeInsets.all(8),
@@ -102,16 +104,11 @@ class NotifyCard extends HookConsumerWidget {
             GestureDetector(
               onTap: () {
                 ref.read(notifyRepositoryProvider.notifier).changeNotify(
-                      notify.id,
-                      notify.text,
-                      notify.fireTime.add(1.days),
+                      intNotify.id,
+                      intNotify.text,
+                      intNotify.fireTime.add(1.days),
                       true,
                     );
-                ref.read(currentNotifyProvider.notifier).state = Notify(
-                  fireTime: notify.fireTime.add(1.days),
-                  text: notify.text,
-                  id: notify.id,
-                );
               },
               child: Container(
                 margin: const EdgeInsets.all(8),
@@ -135,7 +132,7 @@ class NotifyCard extends HookConsumerWidget {
             onDismissed: () {
               ref
                   .read(notifyRepositoryProvider.notifier)
-                  .removeNotify(notify.id);
+                  .deleteNotify(intNotify.id);
             },
           ),
           children: const [],
@@ -155,7 +152,7 @@ class NotifyCard extends HookConsumerWidget {
             padding: const EdgeInsets.all(12.0),
             child: expanded
                 ? ExpandedNotifyCard(
-                    notify: notify,
+                    notify: intNotify,
                     dateText: NotifyController.getNotifyDateText(
                       intNotify.fireTime,
                       dateFormat: true,
@@ -170,31 +167,24 @@ class NotifyCard extends HookConsumerWidget {
                           () {
                             ref
                                 .read(notifyRepositoryProvider.notifier)
-                                .removeNotify(notify.id);
+                                .deleteNotify(intNotify.id);
                           },
                         ),
                       );
-
-                      // ref.read(currentNotifyProvider.notifier).dispose();
                     },
                     onDoneTap: (newFireTime, newText) {
-                      ref
-                          .read(notifyRepositoryProvider.notifier)
-                          .changeNotify(notify.id, newText, intNotify.fireTime);
+                      ref.read(notifyRepositoryProvider.notifier).changeNotify(
+                          intNotify.id, newText, intNotify.fireTime);
                       ref.read(notifyExpandedProvider.notifier).state = 0;
-                      ref.read(currentNotifyProvider.notifier).state = Notify(
-                          fireTime: intNotify.fireTime,
-                          text: newText,
-                          id: notify.id);
                     },
                   )
                 : CollapsedNotifyCard(
-                    notify: notify,
+                    notify: intNotify,
                     dateText: NotifyController.getNotifyDateText(
-                      notify.fireTime,
+                      intNotify.fireTime,
                     ),
                     timeText: NotifyController.getNotifyTimeText(
-                      notify.fireTime,
+                      intNotify.fireTime,
                     ),
                   ),
           ),
@@ -274,7 +264,7 @@ class ExpandedNotifyCard extends HookConsumerWidget {
     final textController = useTextEditingController(
       text: notify.text,
     );
-    var notifyTime = ref.watch(currentNotifyProvider).fireTime;
+    var notifyTime = notify.fireTime;
     return Column(
       children: [
         GestureDetector(
@@ -295,12 +285,9 @@ class ExpandedNotifyCard extends HookConsumerWidget {
               if (time != null) {
                 DateTime newDate = DateTime(
                     date.year, date.month, date.day, time.hour, time.minute);
-                final newNotify = Notify(
-                  fireTime: newDate,
-                  text: textController.text,
-                  id: notify.id,
-                );
-                ref.read(currentNotifyProvider.notifier).state = newNotify;
+                ref
+                    .read(notifyRepositoryProvider.notifier)
+                    .changeNotify(notify.id, textController.text, newDate);
               }
             }
           },
@@ -322,12 +309,9 @@ class ExpandedNotifyCard extends HookConsumerWidget {
                         notify.fireTime.day,
                         time.hour,
                         time.minute);
-                    final newNotify = Notify(
-                      fireTime: newDate,
-                      text: textController.text,
-                      id: notify.id,
-                    );
-                    ref.read(currentNotifyProvider.notifier).state = newNotify;
+                    ref
+                        .read(notifyRepositoryProvider.notifier)
+                        .changeNotify(notify.id, textController.text, newDate);
                   }
                 },
                 child: Text(

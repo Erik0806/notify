@@ -14,7 +14,14 @@ import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 void main(List<String> args) async {
-  // runApp(const LoadingScreen()); TODO
+  //TODO do properly
+  runApp(const MaterialApp(
+    home: Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
+    ),
+  ));
 
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences preferences = await SharedPreferences.getInstance();

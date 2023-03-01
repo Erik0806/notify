@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notify/src/common_widgets/notify_logo.dart';
 import 'package:notify/src/features/notifies/data/notify_repository.dart';
+import 'package:notify/src/features/notifies/presentation/active_notifies_screen_controller.dart';
 import 'package:notify/src/features/notifies/presentation/notifies_controller.dart';
 import 'package:notify/src/features/notifies/presentation/widgets/notify_card.dart';
 import 'package:notify/src/features/settings/data/settings_repository.dart';
@@ -17,8 +18,8 @@ class ActiveNotifiesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(activeNotifiesProvider);
-    final settings = ref.watch(settingsRepositoryProvider);
+    final state = ref.watch(activeNotifiesScreenNotifierProvider);
+    final settings = ref.read(settingsRepositoryProvider);
     ref.read(loggerProvider).i('Built activeNotifiesScreen');
     return Localizations.override(
       context: context,
@@ -83,15 +84,10 @@ class ActiveNotifiesScreen extends ConsumerWidget {
           ),
         ),
         body: state.isEmpty
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  heightFactor: 1,
-                  child: Column(
-                    children: [
-                      Text(AppLocalizations.of(context)!.noActiveNotifies),
-                    ],
-                  ),
+            ? Center(
+                heightFactor: 4,
+                child: Text(
+                  AppLocalizations.of(context)!.noActiveNotifies,
                 ),
               )
             : ListView.builder(
@@ -102,22 +98,17 @@ class ActiveNotifiesScreen extends ConsumerWidget {
                       //So the floatingactionbutton does not overshadow anything
                       height: 80,
                     );
+                  } else {
+                    return ProviderScope(
+                      overrides: [
+                        currentNotifyIndexProvider.overrideWithValue(index),
+                      ],
+                      child: NotifyCard(
+                        stateNotifierProvider:
+                            activeNotifiesScreenNotifierProvider,
+                      ),
+                    );
                   }
-                  return ProviderScope(
-                    overrides: [
-                      currentNotifyProvider.overrideWith(
-                        (ref) {
-                          return state[index];
-                        },
-                      ),
-                      wasExpandedProvider.overrideWith(
-                        (ref) => false,
-                      ),
-                    ],
-                    child: NotifyCard(
-                      notify: ref.read(activeNotifiesProvider)[index],
-                    ),
-                  );
                 },
               ),
       ),

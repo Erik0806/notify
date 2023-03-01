@@ -16,7 +16,6 @@ class NotifyRepository extends StateNotifier<List<Notify>> {
     state = _loadNotifies(preferences);
     if (ref.read(appOpenedProvider)) {
       activeNotify = addNotify();
-      // ref.read(appOpenedProvider.notifier).state = false;
     }
   }
   int activeNotify = 0;
@@ -46,28 +45,29 @@ class NotifyRepository extends StateNotifier<List<Notify>> {
     state.sort(
       (a, b) => a.compareTo(b),
     );
-    state = [notify, ...state];
 
     ref.read(notificationRepositoryProvider).createNotification(notify);
     ref.read(statsRepositoryProvider.notifier).addNewNotifyToStats();
     ref.read(loggerProvider).i('created new notify');
 
+    state = [notify, ...state];
+
     saveNotifies();
     return notify.id;
   }
 
-  removeNotify(int id) {
-    state = [
+  deleteNotify(int id) {
+    List<Notify> newState = [
       for (final notify in state)
         if (notify.id != id) notify,
     ];
-    state = state;
-
     ref.read(notificationRepositoryProvider).deleteNotification(id);
     ref.read(statsRepositoryProvider.notifier).addDeletedNotifyToStats();
-    ref.read(loggerProvider).i('removed notify');
+    ref.read(loggerProvider).i('deleted notify');
 
     saveNotifies();
+
+    state = newState;
   }
 
   changeNotify(int id, String newText, DateTime newFireTime,
@@ -94,19 +94,20 @@ class NotifyRepository extends StateNotifier<List<Notify>> {
       id: id,
       firstTimeOpen: false,
     );
-    state = [
+    List<Notify> newState = [
       for (final notify in state)
         if (notify.id == id) newNotify else notify,
     ];
-    state.sort(
+    newState.sort(
       (a, b) => a.compareTo(b),
     );
-    state = state;
 
     ref.read(notificationRepositoryProvider).changeNotification(newNotify);
     ref.read(soundRepositoryProvider).playSound(newText);
     ref.read(statsRepositoryProvider.notifier).addChangedNotifyToStats();
     ref.read(loggerProvider).i('changed notify');
+
+    state = newState;
 
     saveNotifies();
   }
@@ -119,7 +120,6 @@ class NotifyRepository extends StateNotifier<List<Notify>> {
     ref
         .read(sharedPreferencesProvider)
         .setString(notifiesKey, Notify.encode(state));
-    state = state;
     ref.read(loggerProvider).i('saved notifies');
   }
 }
