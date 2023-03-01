@@ -8,7 +8,8 @@ final loggerProvider = Provider<Logger>(
           MyFilter(), // Use the default LogFilter (-> only log in debug mode)
       printer: PrettyPrinter(
         printTime: true,
-      ), // Use the PrettyPrinter to format and print log
+      ),
+
       output: AppLogOutput(
         logConsoleManager: ref.read(logConsoleManagerProvider),
       ), // Use the default LogOutput (-> send everything to console)

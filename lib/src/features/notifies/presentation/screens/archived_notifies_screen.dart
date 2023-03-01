@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:notify/src/features/notifies/presentation/archived_notifies_screen_controller.dart';
 import 'package:notify/src/features/notifies/presentation/notifies_controller.dart';
 import 'package:notify/src/features/notifies/presentation/widgets/notify_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -11,7 +12,7 @@ class ArchievedNotifiesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var state = ref.watch(archivedNotifiesProvider);
+    var state = ref.watch(archivedNotifiesScreenNotifierProvider);
     ref.read(loggerProvider).i('Built archivedNotifiesScreen');
     return Scaffold(
       appBar: AppBar(
@@ -35,27 +36,15 @@ class ArchievedNotifiesScreen extends ConsumerWidget {
               child: Text(AppLocalizations.of(context)!.noArchivedNotifies),
             )
           : ListView.builder(
-              itemCount: state.length + 1,
+              itemCount: state.length,
               itemBuilder: (context, index) {
-                if (index >= state.length) {
-                  return const SizedBox(
-                    //So the floatingactionbutton does not overshadow anything
-                    height: 80,
-                  );
-                }
                 return ProviderScope(
                   overrides: [
-                    currentNotifyProvider.overrideWith(
-                      (ref) {
-                        return state[index];
-                      },
-                    ),
-                    wasExpandedProvider.overrideWith(
-                      (ref) => false,
-                    ),
+                    currentNotifyIndexProvider.overrideWithValue(index),
                   ],
                   child: NotifyCard(
-                    notify: ref.read(archivedNotifiesProvider)[index],
+                    stateNotifierProvider:
+                        archivedNotifiesScreenNotifierProvider,
                   ),
                 );
               },
