@@ -280,55 +280,21 @@ class ExpandedNotifyCard extends HookConsumerWidget {
     final textController = useTextEditingController(
       text: notify.text,
     );
-    var notifyTime = notify.fireTime;
     return Column(
       children: [
         GestureDetector(
-          onTap: () async {
-            DateTime? date = await showDatePicker(
-              context: context,
-              initialDate: notifyTime,
-              firstDate: DateTime(1900),
-              lastDate: DateTime(3000),
-            );
-            if (date != null) {
-              // ignore: use_build_context_synchronously
-              TimeOfDay? time = await showTimePicker(
-                context: context,
-                initialTime: TimeOfDay.fromDateTime(notifyTime),
-              );
-
-              if (time != null) {
-                DateTime newDate = DateTime(
-                    date.year, date.month, date.day, time.hour, time.minute);
-                ref
-                    .read(notifyRepositoryProvider.notifier)
-                    .changeNotify(notify.id, textController.text, newDate);
-              }
-            }
+          onTap: () {
+            NotifyController.showMyDatePicker(
+                ref, context, notify, textController.text);
           },
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.ideographic,
             children: [
               GestureDetector(
-                onTap: () async {
-                  TimeOfDay? time = await showTimePicker(
-                    context: context,
-                    initialTime: TimeOfDay.fromDateTime(notifyTime),
-                  );
-
-                  if (time != null) {
-                    DateTime newDate = DateTime(
-                        notify.fireTime.year,
-                        notify.fireTime.month,
-                        notify.fireTime.day,
-                        time.hour,
-                        time.minute);
-                    ref
-                        .read(notifyRepositoryProvider.notifier)
-                        .changeNotify(notify.id, textController.text, newDate);
-                  }
+                onTap: () {
+                  NotifyController.showMyTimePicker(
+                      ref, context, notify, textController.text);
                 },
                 child: Text(
                   timeText,

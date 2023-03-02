@@ -52,7 +52,7 @@ dependencies:
   flutter_slidable: ^2.0.0
   timezone: ^0.9.1
   logger_flutter_plus: ^1.0.5
-  audioplayers: ^3.0.1
+  # audioplayers: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -81,9 +81,9 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/icon.png
-    - assets/scheissverein.mp3
-    - assets/for_frodo.mp3
-    - assets/rohirrim_charge_1.mp3
+    # - assets/scheissverein.mp3
+    # - assets/for_frodo.mp3
+    # - assets/rohirrim_charge_1.mp3
 
 
 flutter_icons:
