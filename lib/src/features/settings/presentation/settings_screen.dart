@@ -189,7 +189,8 @@ class SettingsScreen extends ConsumerWidget {
           const SizedBox(
             height: 30,
           ),
-          const Text('Copyright: Erik Dierkes - 02.2023'),
+          //TODO update
+          const Text('Version 2.0.0 Beta - ©Erik Dierkes - 02.2023'),
         ],
       ),
     );

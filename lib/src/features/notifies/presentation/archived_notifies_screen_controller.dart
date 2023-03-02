@@ -17,13 +17,23 @@ class ArchivedNotifiesScreenNotifier extends StateNotifier<List<Notify>> {
         ref.read(notifyRepositoryProvider.notifier).deleteNotify(notify.id);
       }
     }
-    state = notifies
+    var newState = notifies
         .where(
           (element) => element.fireTime.isBefore(
             DateTime.now(),
           ),
         )
         .toList();
+    newState.sort(
+      (a, b) {
+        if (a.compareTo(b) > 0) {
+          return -1;
+        } else {
+          return 1;
+        }
+      },
+    );
+    state = newState;
   }
 
   Ref ref;

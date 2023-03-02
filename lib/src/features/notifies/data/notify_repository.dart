@@ -53,6 +53,7 @@ class NotifyRepository extends StateNotifier<List<Notify>> {
     state = [notify, ...state];
 
     saveNotifies();
+
     return notify.id;
   }
 
@@ -65,9 +66,9 @@ class NotifyRepository extends StateNotifier<List<Notify>> {
     ref.read(statsRepositoryProvider.notifier).addDeletedNotifyToStats();
     ref.read(loggerProvider).i('deleted notify');
 
-    saveNotifies();
-
     state = newState;
+
+    saveNotifies();
   }
 
   changeNotify(int id, String newText, DateTime newFireTime,

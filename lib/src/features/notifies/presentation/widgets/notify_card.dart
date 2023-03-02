@@ -1,3 +1,4 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -161,7 +162,7 @@ class NotifyCard extends HookConsumerWidget {
             borderRadius: const BorderRadius.all(Radius.circular(10)),
             border: Border.all(
               width: 1.2,
-              color: Theme.of(context).colorScheme.onBackground,
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.4),
             ),
           ),
           child: Padding(
