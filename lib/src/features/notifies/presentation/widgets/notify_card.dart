@@ -172,6 +172,7 @@ class NotifyCard extends HookConsumerWidget {
                     dateText: NotifyController.getNotifyDateText(
                       intNotify.fireTime,
                       dateFormat: true,
+                      appLocalization: AppLocalizations.of(context),
                     ),
                     timeText: NotifyController.getNotifyTimeText(
                       intNotify.fireTime,
@@ -198,6 +199,7 @@ class NotifyCard extends HookConsumerWidget {
                     notify: intNotify,
                     dateText: NotifyController.getNotifyDateText(
                       intNotify.fireTime,
+                      appLocalization: AppLocalizations.of(context),
                     ),
                     timeText: NotifyController.getNotifyTimeText(
                       intNotify.fireTime,
@@ -239,8 +241,8 @@ class CollapsedNotifyCard extends StatelessWidget {
               height: 5,
             ),
             Text(
-              notify.id.toString(),
-              // dateText, TODO change back
+              // notify.id.toString(),
+              dateText,
               textAlign: TextAlign.start,
             ),
           ],

@@ -1,11 +1,11 @@
-// import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notify/src/utils/logger.dart';
 
 class SoundRepository {
   SoundRepository(this.ref);
 
-  // final AudioPlayer audioPlayer = AudioPlayer();
+  final AudioPlayer audioPlayer = AudioPlayer();
 
   Ref ref;
 
@@ -15,14 +15,14 @@ class SoundRepository {
 
     if (notifyTitle == 'for frodo') {
       played = true;
-      // audioPlayer.play(AssetSource('for_frodo.mp3'));
+      audioPlayer.play(AssetSource('for_frodo.mp3'));
       ref.read(loggerProvider).i('Played sound \'for Frodo\'');
     }
 
     for (var kenGuru in _kaenguru) {
       if (notifyTitle.contains(kenGuru) && !played) {
         played = true;
-        // audioPlayer.play(AssetSource('scheissverein.mp3'));
+        audioPlayer.play(AssetSource('scheissverein.mp3'));
         ref.read(loggerProvider).i('Played sound \'Scheißverein\'');
       }
     }
@@ -30,7 +30,7 @@ class SoundRepository {
     for (var hobbit in _hdr) {
       if (notifyTitle.contains(hobbit) && !played) {
         played = true;
-        // audioPlayer.play(AssetSource('rohirrim_charge_1.mp3'));
+        audioPlayer.play(AssetSource('rohirrim_charge_1.mp3'));
         ref.read(loggerProvider).i('Played sound \'rohirrim charge\'');
       }
     }

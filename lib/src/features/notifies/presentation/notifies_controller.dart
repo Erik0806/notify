@@ -3,6 +3,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:notify/src/features/notifies/data/notify_repository.dart';
 import 'package:notify/src/features/notifies/domain/notify.dart';
+import 'package:notify/src/utils/datetime_extension.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotifyController {
   static void showMyTimePicker(
@@ -67,12 +69,35 @@ class NotifyController {
   static String getNotifyDateText(
     DateTime dateTime, {
     bool dateFormat = false,
+    required AppLocalizations? appLocalization,
   }) {
     if (dateFormat) {
       return DateFormat('EE dd.MM.yyyy', 'de_DE').format(dateTime);
     } else {
-      //TODO Implement
-      return 'hi';
+      if (appLocalization != null) {
+        if (dateTime.isToday()) {
+          return appLocalization.today;
+        } else if (dateTime.isTomorrow()) {
+          return appLocalization.tomorrow;
+        } else if (dateTime.isYesterday()) {
+          return appLocalization.yesterday;
+        } else if (dateTime.isLastWeek()) {
+          String dayWeekText = DateFormat('EEEEEEEE', 'de_DE').format(dateTime);
+          return '${appLocalization.last} $dayWeekText';
+        } else if (dateTime.isNextWeek()) {
+          String dayWeekText = '';
+          if (appLocalization.localeName == 'de') {
+            dayWeekText = DateFormat('EEEEEEEE', 'de_DE').format(dateTime);
+          } else {
+            dayWeekText = DateFormat('EEEEEEEE', 'en_UK').format(dateTime);
+          }
+          return '${appLocalization.next} $dayWeekText';
+        }
+
+        return DateFormat('dd.MM.yyyy', 'de_DE').format(dateTime);
+      } else {
+        return DateFormat('dd.MM.yyyy', 'de_DE').format(dateTime);
+      }
     }
   }
 }

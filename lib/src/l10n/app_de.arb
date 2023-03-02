@@ -23,5 +23,10 @@
     "english" : "English",
     "noActiveNotifies" : "Keine aktiven Notifies",
     "noArchivedNotifies" : "Keine archivierten Notifies",
-    "debugScreen" : "Debugseite"
+    "debugScreen" : "Debugseite",
+    "today" : "Heute",
+    "tomorrow" : "Morgen",
+    "yesterday" : "Gestern",
+    "next" : "Nächsten",
+    "last" : "Letzten"
 }

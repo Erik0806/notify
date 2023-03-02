@@ -23,5 +23,10 @@
     "english" : "English",
     "noActiveNotifies" : "No active notifies",
     "noArchivedNotifies" : "No archived notifies",
-    "debugScreen" : "Debug Screen"
+    "debugScreen" : "Debug Screen",
+    "today" : "Today",
+    "tomorrow" : "Tomorrow",
+    "yesterday" : "Yesterday",
+    "next" : "Next",
+    "last" : "Last"
 }
