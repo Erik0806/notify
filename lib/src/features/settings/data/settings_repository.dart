@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:notify/src/features/settings/domain/settings.dart';
 import 'package:notify/src/constants/shared_prefs_keys.dart';
+import 'package:notify/src/features/settings/domain/settings.dart';
 import 'package:notify/src/utils/logger.dart';
 import 'package:notify/src/utils/shared_preferences_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +14,7 @@ class SettingsRepository extends StateNotifier<Settings> {
   Settings settings;
   Ref ref;
 
-  saveLocalizationCountryCode(String value) {
+  void saveLocalizationCountryCode(String value) {
     saveSpecificSetting(localizationCountryCodeKey, value);
     state.localizationCountryCode = value;
     state = Settings(
@@ -26,9 +26,9 @@ class SettingsRepository extends StateNotifier<Settings> {
     ref.read(loggerProvider).i('Saved SettingLocalizationCountryCode: $value');
   }
 
-  saveNewNotifyAfterOpeningApp(bool value) {
-    saveSpecificSetting(newNotifyAfterOpeningAppKey, value);
-    state.newNotifyAfterOpeningApp = value;
+  void saveNewNotifyAfterOpeningApp({required bool newNotifyAfterOpeningApp}) {
+    saveSpecificSetting(newNotifyAfterOpeningAppKey, newNotifyAfterOpeningApp);
+    state.newNotifyAfterOpeningApp = newNotifyAfterOpeningApp;
     state = Settings(
       newNotifyAfterOpeningApp: state.newNotifyAfterOpeningApp,
       deleteArchivedNotesAfter: state.deleteArchivedNotesAfter,
@@ -37,10 +37,10 @@ class SettingsRepository extends StateNotifier<Settings> {
     );
     ref
         .read(loggerProvider)
-        .i('Saved Setting NewNotifyAfterOpeningApp: $value');
+        .i('Saved Setting NewNotifyAfterOpeningApp: $newNotifyAfterOpeningApp');
   }
 
-  saveDeleteArchivedNotesAfter(Duration value) {
+  void saveDeleteArchivedNotesAfter(Duration value) {
     saveSpecificSetting(deleteArchivedNotesAfterKey, value);
     state.deleteArchivedNotesAfter = value;
     state = Settings(
@@ -54,7 +54,7 @@ class SettingsRepository extends StateNotifier<Settings> {
         .i('Saved Setting DeleteArchivedNotifiesAfter: $value');
   }
 
-  saveThemeEnum(ThemeMode value) {
+  void saveThemeEnum(ThemeMode value) {
     saveSpecificSetting(themeEnumKey, value);
     state.themeMode = value;
     state = Settings(
@@ -66,7 +66,7 @@ class SettingsRepository extends StateNotifier<Settings> {
     ref.read(loggerProvider).i('Saved Setting ThemeEnum: $value');
   }
 
-  saveSpecificSetting(String key, dynamic value) {
+  void saveSpecificSetting(String key, dynamic value) {
     if (value is bool) {
       _prefs.setBool(key, value);
     } else if (value is int) {
@@ -78,7 +78,7 @@ class SettingsRepository extends StateNotifier<Settings> {
     } else if (value is List<String>) {
       _prefs.setStringList(key, value);
     } else if (value is ThemeMode) {
-      int number = 1;
+      var number = 1;
       switch (value) {
         case ThemeMode.light:
           number = 1;
@@ -89,7 +89,6 @@ class SettingsRepository extends StateNotifier<Settings> {
         case ThemeMode.system:
           number = 3;
           break;
-        default:
       }
       _prefs.setInt(key, number);
     } else if (value is Duration) {
@@ -102,7 +101,8 @@ class SettingsRepository extends StateNotifier<Settings> {
       newNotifyAfterOpeningApp:
           preferences.getBool(newNotifyAfterOpeningAppKey) ?? false,
       deleteArchivedNotesAfter: Duration(
-          seconds: preferences.getInt(deleteArchivedNotesAfterKey) ?? 0),
+        seconds: preferences.getInt(deleteArchivedNotesAfterKey) ?? 0,
+      ),
       themeMode: preferences.getInt(themeEnumKey) == 1
           ? ThemeMode.light
           : preferences.getInt(themeEnumKey) == 2
@@ -118,9 +118,8 @@ final settingsRepositoryProvider =
     StateNotifierProvider<SettingsRepository, Settings>(
   (ref) {
     ref.read(loggerProvider).i('Created SettingsRepositoryProvider');
-    var sharedPreferencesProvide = ref.watch(sharedPreferencesProvider);
-    Settings settings =
-        SettingsRepository._loadSettings(sharedPreferencesProvide);
+    final sharedPreferencesProvide = ref.watch(sharedPreferencesProvider);
+    final settings = SettingsRepository._loadSettings(sharedPreferencesProvide);
     ref.read(loggerProvider).i('Loaded settings from memory');
     return SettingsRepository(
       sharedPreferencesProvide,

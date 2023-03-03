@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notify/src/common_widgets/notify_logo.dart';
@@ -10,7 +11,6 @@ import 'package:notify/src/features/notifies/presentation/active_notifies_screen
 import 'package:notify/src/features/notifies/presentation/notifies_controller.dart';
 import 'package:notify/src/features/notifies/presentation/widgets/notify_card.dart';
 import 'package:notify/src/features/settings/data/settings_repository.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notify/src/utils/logger.dart';
 
 class ActiveNotifiesScreen extends ConsumerWidget {
@@ -31,7 +31,7 @@ class ActiveNotifiesScreen extends ConsumerWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            int id = ref.read(notifyRepositoryProvider.notifier).addNotify();
+            final id = ref.read(notifyRepositoryProvider.notifier).addNotify();
             ref.read(notifyExpandedProvider.notifier).state = id;
           },
           child: const Icon(Icons.add),
@@ -48,8 +48,9 @@ class ActiveNotifiesScreen extends ConsumerWidget {
                   ),
                   title: Text(AppLocalizations.of(context)!.settings),
                   onTap: () {
-                    context.pop();
-                    context.push('/settings');
+                    context
+                      ..pop()
+                      ..push('/settings');
                   },
                 ),
                 ListTile(
@@ -59,8 +60,9 @@ class ActiveNotifiesScreen extends ConsumerWidget {
                   ),
                   title: Text(AppLocalizations.of(context)!.archive),
                   onTap: () {
-                    context.pop();
-                    context.push('/archieve');
+                    context
+                      ..pop()
+                      ..push('/archieve');
                   },
                 ),
                 Padding(
@@ -71,7 +73,7 @@ class ActiveNotifiesScreen extends ConsumerWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8),
                   child: ElevatedButton(
                     onPressed: () {
                       if (Platform.isAndroid || Platform.isIOS) {

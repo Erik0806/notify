@@ -5,11 +5,11 @@ import 'package:notify/src/features/settings/data/settings_repository.dart';
 
 class ArchivedNotifiesScreenNotifier extends StateNotifier<List<Notify>> {
   ArchivedNotifiesScreenNotifier(this.ref) : super([]) {
-    var notifies = ref.watch(notifyRepositoryProvider);
-    var deleteNotifiesAfter =
+    final notifies = ref.watch(notifyRepositoryProvider);
+    final deleteNotifiesAfter =
         ref.read(settingsRepositoryProvider).deleteArchivedNotesAfter;
-    if (deleteNotifiesAfter > const Duration(seconds: 0)) {
-      for (var notify in notifies.where(
+    if (deleteNotifiesAfter > Duration.zero) {
+      for (final notify in notifies.where(
         (element) => element.fireTime.isBefore(
           DateTime.now().subtract(deleteNotifiesAfter),
         ),
@@ -17,22 +17,22 @@ class ArchivedNotifiesScreenNotifier extends StateNotifier<List<Notify>> {
         ref.read(notifyRepositoryProvider.notifier).deleteNotify(notify.id);
       }
     }
-    var newState = notifies
+    final newState = notifies
         .where(
           (element) => element.fireTime.isBefore(
             DateTime.now(),
           ),
         )
-        .toList();
-    newState.sort(
-      (a, b) {
-        if (a.compareTo(b) > 0) {
-          return -1;
-        } else {
-          return 1;
-        }
-      },
-    );
+        .toList()
+      ..sort(
+        (a, b) {
+          if (a.compareTo(b) > 0) {
+            return -1;
+          } else {
+            return 1;
+          }
+        },
+      );
     state = newState;
   }
 

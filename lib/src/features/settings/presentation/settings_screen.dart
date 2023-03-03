@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger_flutter_plus/logger_flutter_plus.dart';
@@ -8,7 +9,6 @@ import 'package:notify/src/features/settings/data/settings_repository.dart';
 import 'package:notify/src/features/settings/presentation/settings_screen_controller.dart';
 import 'package:notify/src/utils/logger.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -25,7 +25,7 @@ class SettingsScreen extends ConsumerWidget {
             context.pop();
           },
           child: const Padding(
-            padding: EdgeInsets.all(12.0),
+            padding: EdgeInsets.all(12),
             child: Icon(
               Icons.arrow_back,
               size: 32,
@@ -40,24 +40,27 @@ class SettingsScreen extends ConsumerWidget {
               children: [
                 ListTile(
                   title: Text(
-                      AppLocalizations.of(context)!.newNotifyAfterOpeningApp),
+                    AppLocalizations.of(context)!.newNotifyAfterOpeningApp,
+                  ),
                   trailing: Checkbox(
                     value: state.newNotifyAfterOpeningApp,
                     onChanged: (value) {
                       ref
                           .read(settingsRepositoryProvider.notifier)
-                          .saveNewNotifyAfterOpeningApp(value ?? false);
+                          .saveNewNotifyAfterOpeningApp(
+                            newNotifyAfterOpeningApp: value ?? false,
+                          );
                     },
                   ),
                 ),
                 ListTile(
-                  title: Text(AppLocalizations.of(context)!
-                      .deleteArchivedNotifiesAfter),
+                  title: Text(
+                    AppLocalizations.of(context)!.deleteArchivedNotifiesAfter,
+                  ),
                   trailing: ToggleSwitch(
-                    animate:
-                        true, // with just animate set to true, default curve = Curves.easeIn
+                    animate: true,
                     curve: Curves.bounceInOut,
-                    cornerRadius: 20.0,
+                    cornerRadius: 20,
                     initialLabelIndex:
                         state.deleteArchivedNotesAfter.inSeconds == 0
                             ? 0
@@ -84,10 +87,9 @@ class SettingsScreen extends ConsumerWidget {
                 ListTile(
                   title: Text(AppLocalizations.of(context)!.themeMode),
                   trailing: ToggleSwitch(
-                    animate:
-                        true, // with just animate set to true, default curve = Curves.easeIn
+                    animate: true,
                     curve: Curves.bounceInOut,
-                    cornerRadius: 20.0,
+                    cornerRadius: 20,
                     initialLabelIndex: state.themeMode == ThemeMode.system
                         ? 0
                         : state.themeMode == ThemeMode.light
@@ -100,7 +102,7 @@ class SettingsScreen extends ConsumerWidget {
                       AppLocalizations.of(context)!.dark,
                     ],
                     onToggle: (index) {
-                      ThemeMode themeMode = ThemeMode.system;
+                      var themeMode = ThemeMode.system;
                       switch (index) {
                         case 0:
                           themeMode = ThemeMode.system;
@@ -121,10 +123,9 @@ class SettingsScreen extends ConsumerWidget {
                 ListTile(
                   title: Text(AppLocalizations.of(context)!.language),
                   trailing: ToggleSwitch(
-                    animate:
-                        true, // with just animate set to true, default curve = Curves.easeIn
+                    animate: true,
                     curve: Curves.bounceInOut,
-                    cornerRadius: 20.0,
+                    cornerRadius: 20,
                     initialLabelIndex:
                         state.localizationCountryCode == 'de' ? 0 : 1,
                     totalSwitches: 2,
@@ -134,7 +135,7 @@ class SettingsScreen extends ConsumerWidget {
                       AppLocalizations.of(context)!.english,
                     ],
                     onToggle: (index) {
-                      String countryCode = 'de';
+                      var countryCode = 'de';
                       if (index == 1) {
                         countryCode = 'en';
                       }
@@ -148,11 +149,12 @@ class SettingsScreen extends ConsumerWidget {
                   title: Text(AppLocalizations.of(context)!.debugScreen),
                   trailing: ElevatedButton(
                     onPressed: () {
+                      // ignore: inference_failure_on_function_invocation
                       showDialog(
                         context: context,
                         builder: (context) {
                           return Padding(
-                            padding: const EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.all(16),
                             child: Card(
                               color: Colors.black,
                               child: LogConsoleWidget(
@@ -189,7 +191,7 @@ class SettingsScreen extends ConsumerWidget {
           const SizedBox(
             height: 30,
           ),
-          //TODO update
+          // TODO(Erik0806): update,
           const Text('Version 2.0.0 Beta - ©Erik Dierkes - 02.2023'),
         ],
       ),

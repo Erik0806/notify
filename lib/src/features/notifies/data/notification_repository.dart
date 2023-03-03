@@ -1,7 +1,8 @@
 import 'dart:io';
+
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notify/src/features/notifies/domain/notify.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:notify/src/utils/logger.dart';
 import 'package:timezone/timezone.dart' as tz;
 
@@ -11,14 +12,13 @@ class NotificationRepository {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   Ref ref;
 
-  createNotification(Notify notify) async {
+  void createNotification(Notify notify) {
     if (Platform.isAndroid) {
       if (notify.fireTime
           .isBefore(DateTime.now().add(const Duration(seconds: 10)))) {
         ref.read(loggerProvider).e('Notification firetime is in the past');
-        return;
-      }
-      await flutterLocalNotificationsPlugin.zonedSchedule(
+      } else {
+        flutterLocalNotificationsPlugin.zonedSchedule(
           notify.id,
           notify.text,
           null,
@@ -34,14 +34,16 @@ class NotificationRepository {
           ),
           androidAllowWhileIdle: true,
           uiLocalNotificationDateInterpretation:
-              UILocalNotificationDateInterpretation.absoluteTime);
-      ref.read(loggerProvider).i('created notification');
+              UILocalNotificationDateInterpretation.absoluteTime,
+        );
+        ref.read(loggerProvider).i('created notification');
+      }
     } else {
       ref.read(loggerProvider).e('Invalid platform to create notification');
     }
   }
 
-  deleteNotification(int id) {
+  void deleteNotification(int id) {
     if (Platform.isAndroid) {
       flutterLocalNotificationsPlugin.cancel(id);
       ref.read(loggerProvider).i('deleted notification');
@@ -50,7 +52,7 @@ class NotificationRepository {
     }
   }
 
-  changeNotification(Notify notify) {
+  void changeNotification(Notify notify) {
     if (Platform.isAndroid) {
       deleteNotification(notify.id);
       createNotification(notify);

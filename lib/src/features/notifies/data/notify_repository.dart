@@ -1,6 +1,8 @@
 import 'dart:math';
+
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:notify/src/constants/shared_prefs_keys.dart';
 import 'package:notify/src/features/notifies/data/notification_repository.dart';
 import 'package:notify/src/features/notifies/data/sound_repository.dart';
 import 'package:notify/src/features/notifies/data/statistics_repository.dart';
@@ -8,7 +10,6 @@ import 'package:notify/src/features/notifies/domain/notify.dart';
 import 'package:notify/src/features/settings/data/settings_repository.dart';
 import 'package:notify/src/utils/logger.dart';
 import 'package:notify/src/utils/shared_preferences_provider.dart';
-import 'package:notify/src/constants/shared_prefs_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotifyRepository extends StateNotifier<List<Notify>> {
@@ -23,12 +24,12 @@ class NotifyRepository extends StateNotifier<List<Notify>> {
   final Ref ref;
 
   int addNotify() {
-    bool found = false;
-    int id = 0;
+    var found = false;
+    var id = 0;
     while (!found) {
       id = Random().nextInt(10000);
-      bool found2 = true;
-      for (var notify in state) {
+      var found2 = true;
+      for (final notify in state) {
         if (id == notify.id) {
           found2 = false;
         }
@@ -37,7 +38,7 @@ class NotifyRepository extends StateNotifier<List<Notify>> {
         found = true;
       }
     }
-    Notify notify = Notify(
+    final notify = Notify(
       fireTime: DateTime.now().add(1.hours),
       text: '',
       id: id,
@@ -57,8 +58,8 @@ class NotifyRepository extends StateNotifier<List<Notify>> {
     return notify.id;
   }
 
-  deleteNotify(int id) {
-    List<Notify> newState = [
+  void deleteNotify(int id) {
+    final newState = [
       for (final notify in state)
         if (notify.id != id) notify,
     ];
@@ -71,10 +72,15 @@ class NotifyRepository extends StateNotifier<List<Notify>> {
     saveNotifies();
   }
 
-  changeNotify(int id, String newText, DateTime newFireTime,
-      [bool round = false]) {
-    int hours = newFireTime.hour;
-    int minute = newFireTime.minute;
+  void changeNotify(
+    int id,
+    String newText,
+    DateTime newFireTime, {
+    bool round = false,
+  }) {
+    var newTime = newFireTime;
+    var hours = newFireTime.hour;
+    var minute = newFireTime.minute;
     if (round) {
       if (minute < 15) {
         minute = 0;
@@ -84,24 +90,23 @@ class NotifyRepository extends StateNotifier<List<Notify>> {
         minute = 0;
         hours++;
       }
-      newFireTime = newFireTime.copyWith(
+      newTime = newFireTime.copyWith(
         hour: hours,
         minute: minute,
       );
     }
-    Notify newNotify = Notify(
-      fireTime: newFireTime,
+    final newNotify = Notify(
+      fireTime: newTime,
       text: newText,
       id: id,
       firstTimeOpen: false,
     );
-    List<Notify> newState = [
+    final newState = [
       for (final notify in state)
         if (notify.id == id) newNotify else notify,
-    ];
-    newState.sort(
-      (a, b) => a.compareTo(b),
-    );
+    ]..sort(
+        (a, b) => a.compareTo(b),
+      );
 
     ref.read(notificationRepositoryProvider).changeNotification(newNotify);
     ref.read(soundRepositoryProvider).playSound(newText);
@@ -117,7 +122,7 @@ class NotifyRepository extends StateNotifier<List<Notify>> {
     return Notify.decode(sharedPreferences.getString(notifiesKey) ?? '');
   }
 
-  saveNotifies() {
+  void saveNotifies() {
     ref
         .read(sharedPreferencesProvider)
         .setString(notifiesKey, Notify.encode(state));
@@ -133,8 +138,6 @@ final notifyRepositoryProvider =
 
 final appOpenedProvider = StateProvider<bool>(
   (ref) {
-    return ref.read(settingsRepositoryProvider).newNotifyAfterOpeningApp
-        ? true
-        : false;
+    return ref.read(settingsRepositoryProvider).newNotifyAfterOpeningApp;
   },
 );

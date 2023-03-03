@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:notify/src/features/notifies/data/notification_repository.dart';
 import 'package:notify/src/constants/shared_prefs_keys.dart';
+import 'package:notify/src/features/notifies/data/notification_repository.dart';
 import 'package:notify/src/routing/router.dart';
 import 'package:notify/src/utils/logger.dart';
 import 'package:notify/src/utils/shared_preferences_provider.dart';
 import 'package:notify/src/utils/theme_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences preferences = await SharedPreferences.getInstance();
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  final preferences = await SharedPreferences.getInstance();
+  final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-  const AndroidInitializationSettings initializationSettingsAndroid =
+  const initializationSettingsAndroid =
       AndroidInitializationSettings('mipmap/icon');
-  const LinuxInitializationSettings initializationSettingsLinux =
+  const initializationSettingsLinux =
       LinuxInitializationSettings(defaultActionName: 'open notification');
-  const InitializationSettings initializationSettings = InitializationSettings(
+  const initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
     linux: initializationSettingsLinux,
   );
@@ -32,7 +31,7 @@ void main(List<String> args) async {
   tz.initializeTimeZones();
   tz.setLocalLocation(tz.getLocation('Europe/Berlin'));
 
-  ThemeMode themeMode = preferences.getInt(themeEnumKey) == 1
+  final themeMode = preferences.getInt(themeEnumKey) == 1
       ? ThemeMode.light
       : preferences.getInt(themeEnumKey) == 2
           ? ThemeMode.dark
@@ -56,7 +55,7 @@ class NotifyMain extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ThemeMode themeMode = ref.watch(themeModeProvider);
+    final themeMode = ref.watch(themeModeProvider);
     ref.read(loggerProvider).i('Started app');
     try {
       return MaterialApp.router(

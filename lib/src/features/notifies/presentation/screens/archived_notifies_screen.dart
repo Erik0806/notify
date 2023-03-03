@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notify/src/features/notifies/presentation/archived_notifies_screen_controller.dart';
 import 'package:notify/src/features/notifies/presentation/notifies_controller.dart';
 import 'package:notify/src/features/notifies/presentation/widgets/notify_card.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notify/src/utils/logger.dart';
 
 class ArchievedNotifiesScreen extends ConsumerWidget {
@@ -12,7 +12,7 @@ class ArchievedNotifiesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var state = ref.watch(archivedNotifiesScreenNotifierProvider);
+    final state = ref.watch(archivedNotifiesScreenNotifierProvider);
     ref.read(loggerProvider).i('Built archivedNotifiesScreen');
     return Scaffold(
       appBar: AppBar(
@@ -22,7 +22,7 @@ class ArchievedNotifiesScreen extends ConsumerWidget {
             context.pop();
           },
           child: const Padding(
-            padding: EdgeInsets.all(12.0),
+            padding: EdgeInsets.all(12),
             child: Icon(
               Icons.arrow_back,
               size: 32,

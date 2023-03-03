@@ -1,34 +1,38 @@
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:notify/src/features/notifies/data/notify_repository.dart';
 import 'package:notify/src/features/notifies/domain/notify.dart';
 import 'package:notify/src/features/notifies/presentation/notifies_controller.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:notify/src/utils/logger.dart';
 
 class NotifyCard extends HookConsumerWidget {
   const NotifyCard({
-    super.key,
     required this.stateNotifierProvider,
+    super.key,
   });
 
+  // ignore: strict_raw_type
   final StateNotifierProvider stateNotifierProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    int index = ref.read(currentNotifyIndexProvider);
+    final index = ref.read(currentNotifyIndexProvider);
 
-    final Notify? intNotify = ref.watch(
+    final intNotify = ref.watch(
       stateNotifierProvider.select(
         (value) {
-          if (value.length <= index) {
-            return null;
+          if (value is List<Notify>) {
+            if (value.length <= index) {
+              return null;
+            } else {
+              return value[index];
+            }
           } else {
-            return value[index];
+            return null;
           }
         },
       ),
@@ -51,7 +55,6 @@ class NotifyCard extends HookConsumerWidget {
         }
       },
       child: Slidable(
-        closeOnScroll: true,
         startActionPane: ActionPane(
           motion: const BehindMotion(),
           // extentRatio: 0.5,
@@ -65,20 +68,21 @@ class NotifyCard extends HookConsumerWidget {
                       intNotify.id,
                       intNotify.text,
                       intNotify.fireTime.subtract(1.hours),
-                      true,
+                      round: true,
                     );
               },
               child: Container(
-                  margin: const EdgeInsets.all(8),
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    border: Border.all(
-                      width: 1.2,
-                      color: Theme.of(context).colorScheme.onBackground,
-                    ),
+                margin: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  border: Border.all(
+                    width: 1.2,
+                    color: Theme.of(context).colorScheme.onBackground,
                   ),
-                  child: const Icon(Icons.remove)),
+                ),
+                child: const Icon(Icons.remove),
+              ),
             ),
             GestureDetector(
               onTap: () {
@@ -86,7 +90,7 @@ class NotifyCard extends HookConsumerWidget {
                       intNotify.id,
                       intNotify.text,
                       intNotify.fireTime.add(1.hours),
-                      true,
+                      round: true,
                     );
               },
               child: Container(
@@ -108,7 +112,7 @@ class NotifyCard extends HookConsumerWidget {
                       intNotify.id,
                       intNotify.text,
                       intNotify.fireTime.add(1.days),
-                      true,
+                      round: true,
                     );
               },
               child: Container(
@@ -166,7 +170,7 @@ class NotifyCard extends HookConsumerWidget {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.all(12),
             child: expanded
                 ? ExpandedNotifyCard(
                     notify: intNotify,
@@ -192,7 +196,10 @@ class NotifyCard extends HookConsumerWidget {
                     },
                     onDoneTap: (newFireTime, newText) {
                       ref.read(notifyRepositoryProvider.notifier).changeNotify(
-                          intNotify.id, newText, intNotify.fireTime);
+                            intNotify.id,
+                            newText,
+                            intNotify.fireTime,
+                          );
                       ref.read(notifyExpandedProvider.notifier).state = 0;
                     },
                   )
@@ -215,10 +222,10 @@ class NotifyCard extends HookConsumerWidget {
 
 class CollapsedNotifyCard extends StatelessWidget {
   const CollapsedNotifyCard({
-    super.key,
     required this.notify,
     required this.dateText,
     required this.timeText,
+    super.key,
   });
 
   final Notify notify;
@@ -265,18 +272,18 @@ class CollapsedNotifyCard extends StatelessWidget {
 
 class ExpandedNotifyCard extends HookConsumerWidget {
   const ExpandedNotifyCard({
-    super.key,
     required this.notify,
     required this.timeText,
     required this.dateText,
     required this.onDoneTap,
     required this.onDeleteTap,
+    super.key,
   });
   final Notify notify;
   final String timeText;
   final String dateText;
-  final Function(DateTime newFireTime, String newText) onDoneTap;
-  final Function(BuildContext context) onDeleteTap;
+  final void Function(DateTime newFireTime, String newText) onDoneTap;
+  final void Function(BuildContext context) onDeleteTap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -288,7 +295,11 @@ class ExpandedNotifyCard extends HookConsumerWidget {
         GestureDetector(
           onTap: () {
             NotifyController.showMyDatePicker(
-                ref, context, notify, textController.text);
+              ref,
+              context,
+              notify,
+              textController.text,
+            );
           },
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -297,7 +308,11 @@ class ExpandedNotifyCard extends HookConsumerWidget {
               GestureDetector(
                 onTap: () {
                   NotifyController.showMyTimePicker(
-                      ref, context, notify, textController.text);
+                    ref,
+                    context,
+                    notify,
+                    textController.text,
+                  );
                 },
                 child: Text(
                   timeText,

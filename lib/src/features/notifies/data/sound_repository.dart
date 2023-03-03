@@ -9,29 +9,29 @@ class SoundRepository {
 
   Ref ref;
 
-  playSound(String notifyTitle) {
-    bool played = false;
-    notifyTitle = notifyTitle.toLowerCase();
+  void playSound(String notifyTitle) {
+    var played = false;
+    final betterNotifyTitle = notifyTitle.toLowerCase();
 
-    if (notifyTitle == 'for frodo') {
+    if (betterNotifyTitle == 'for frodo') {
       played = true;
       audioPlayer.play(AssetSource('for_frodo.mp3'));
-      ref.read(loggerProvider).i('Played sound \'for Frodo\'');
+      ref.read(loggerProvider).i("Played sound 'for Frodo'");
     }
 
-    for (var kenGuru in _kaenguru) {
-      if (notifyTitle.contains(kenGuru) && !played) {
+    for (final kenGuru in _kaenguru) {
+      if (betterNotifyTitle.contains(kenGuru) && !played) {
         played = true;
         audioPlayer.play(AssetSource('scheissverein.mp3'));
-        ref.read(loggerProvider).i('Played sound \'Scheißverein\'');
+        ref.read(loggerProvider).i("Played sound 'Scheißverein'");
       }
     }
 
-    for (var hobbit in _hdr) {
-      if (notifyTitle.contains(hobbit) && !played) {
+    for (final hobbit in _hdr) {
+      if (betterNotifyTitle.contains(hobbit) && !played) {
         played = true;
         audioPlayer.play(AssetSource('rohirrim_charge_1.mp3'));
-        ref.read(loggerProvider).i('Played sound \'rohirrim charge\'');
+        ref.read(loggerProvider).i("Played sound 'rohirrim charge'");
       }
     }
   }

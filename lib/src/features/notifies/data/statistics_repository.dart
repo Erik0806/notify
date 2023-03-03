@@ -1,8 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:notify/src/constants/shared_prefs_keys.dart';
 import 'package:notify/src/features/notifies/domain/stats.dart';
 import 'package:notify/src/utils/logger.dart';
 import 'package:notify/src/utils/shared_preferences_provider.dart';
-import 'package:notify/src/constants/shared_prefs_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StatsRepository extends StateNotifier<Stats> {
@@ -17,7 +17,7 @@ class StatsRepository extends StateNotifier<Stats> {
   Ref ref;
   late SharedPreferences prefs;
 
-  addNewNotifyToStats() {
+  void addNewNotifyToStats() {
     state.newNotifies++;
     ref.read(sharedPreferencesProvider).setInt(
           newNotifyCountStatsKey,
@@ -27,7 +27,7 @@ class StatsRepository extends StateNotifier<Stats> {
     ref.read(loggerProvider).i('added new notify to stats');
   }
 
-  addChangedNotifyToStats() {
+  void addChangedNotifyToStats() {
     state.changedNotifies++;
     ref.read(sharedPreferencesProvider).setInt(
           changedNotifyCountStatsKey,
@@ -41,7 +41,7 @@ class StatsRepository extends StateNotifier<Stats> {
     ref.read(loggerProvider).i('added changed notify to stats');
   }
 
-  addDeletedNotifyToStats() {
+  void addDeletedNotifyToStats() {
     state.deletedNotifies++;
     ref.read(sharedPreferencesProvider).setInt(
           deletedNotifyCountStatsKey,

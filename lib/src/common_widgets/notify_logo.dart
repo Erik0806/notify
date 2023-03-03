@@ -7,7 +7,7 @@ class NotifyLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(32.0),
+      padding: const EdgeInsets.all(32),
       child: Stack(
         alignment: AlignmentDirectional.center,
         children: [
@@ -18,7 +18,7 @@ class NotifyLogo extends StatelessWidget {
               width: 120,
               color:
                   Theme.of(context).colorScheme.brightness == Brightness.light
-                      ? Theme.of(context).colorScheme.background.lighten(10)
+                      ? Theme.of(context).colorScheme.background.lighten()
                       : Theme.of(context).colorScheme.onBackground,
             ),
           ),
