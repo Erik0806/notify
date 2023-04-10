@@ -33,7 +33,7 @@ dependencies:
   audioplayers: ^3.0.1
   cupertino_icons: ^1.0.2
   duration: ^3.0.11
-  flex_color_scheme: ^6.1.2
+  flex_color_scheme: ^7.0.1
   flutter:
     sdk: flutter
   flutter_animate: ^4.1.0
