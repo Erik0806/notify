@@ -201,7 +201,7 @@ packages:
       name: flutter_animate
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.1.0"
+    version: "4.1.1+1"
   flutter_hooks:
     dependency: "direct main"
     description:
