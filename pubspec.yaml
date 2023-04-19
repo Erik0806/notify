@@ -46,7 +46,7 @@ dependencies:
   hooks_riverpod: ^2.3.2
   intl: ^0.17.0
   logger_flutter_plus: ^1.0.5
-  shared_preferences: ^2.0.18
+  shared_preferences: ^2.1.0
   timezone: ^0.9.1
   toggle_switch: ^2.0.1
 
