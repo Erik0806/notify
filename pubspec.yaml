@@ -48,7 +48,7 @@ dependencies:
   logger_flutter_plus: ^1.0.5
   shared_preferences: ^2.1.0
   timezone: ^0.9.1
-  toggle_switch: ^2.0.1
+  toggle_switch: ^2.1.0
 
 dev_dependencies:
   flutter_launcher_icons: ^0.12.0
