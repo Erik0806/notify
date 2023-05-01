@@ -38,7 +38,7 @@ dependencies:
     sdk: flutter
   flutter_animate: ^4.1.1+1
   flutter_hooks: ^0.18.5+1
-  flutter_local_notifications: ^13.0.0
+  flutter_local_notifications: ^14.0.0+1
   flutter_localizations: 
     sdk: flutter
   flutter_slidable: ^3.0.0
